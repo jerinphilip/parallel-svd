@@ -7,10 +7,28 @@
 int main(int argc, char *argv[]){
     int m, n;
     m = 5, n = 5;
+
+    /* Initialization of a CPU Tensor. */
     CPUTensor A(m, n), B(m, n);
+
+
+    /* Utility to get random matrices. "utils.h" */
     A = random(m, n);
     B = random(m, n);
+
+    /* 
+     * Block description syntax. 
+     * With slice, this enables slicing of the array.
+     * block -> "indexing.h"
+     * slice -> "ops.h"
+     */
     block s = block(1, 3)(0, -1);
+
+    /*
+     * print_m is a macro utility defined in "utils.h"
+     * All ops are defined in "ops.h"
+     */
+
     print_m(ops::slice(A, s));
     print_m(A);
     print_m(B);
