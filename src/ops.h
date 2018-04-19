@@ -60,6 +60,20 @@ namespace ops {
         }
         return C;
     }
+
+    CPUTensor slice(const CPUTensor A, block b){
+        if ( b.row.end == -1) b.row.end = A.rows;
+        if ( b.col.end == -1) b.col.end = A.cols;
+
+        CPUTensor C(b.row.size(), b.col.size());
+        for(int i=b.row.start; i<b.row.end; i++){
+            for(int j=b.col.start; j<b.col.end; j++){
+                C(i-b.row.start, j-b.col.start) = A(i, j);
+            }
+        }
+        return C;
+
+    }
 }
 
 #endif
