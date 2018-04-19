@@ -33,6 +33,20 @@ struct CPUTensor: public Tensor {
         storage->_copy(B.storage);
     }
 
+    void operator=(const CPUTensor A){
+        /* 
+         * TODO
+         * Possible optimization, if dimensions equal, 
+         * remove realloc overhead. 
+         * */
+        if(storage)
+            delete storage;
+        rows = A.rows;
+        cols = A.cols;
+        storage = new CPUStorage(_size());
+        storage->_copy(A.storage);
+    }
+
     CPUTensor flatten(){
         return reshape(rows*cols, 1);
     }

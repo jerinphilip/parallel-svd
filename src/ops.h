@@ -47,4 +47,19 @@ CPU_ELEMENT_WISE(-)
 CPU_ELEMENT_WISE(*)
 CPU_ELEMENT_WISE(/)
 
+namespace ops {
+    CPUTensor mul(const CPUTensor A, const CPUTensor B){
+        assert ( A.cols == B.rows );
+        CPUTensor C(A.rows, B.cols);
+        for(int i=0; i < A.rows; i++){
+            for(int j=0; j < B.cols; j++){
+                for(int k=0; k < A.cols; k++){
+                    C(i, j) += A(i, k)*B(k, j);
+                }
+            }
+        }
+        return C;
+    }
+}
+
 #endif
