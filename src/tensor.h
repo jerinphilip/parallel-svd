@@ -100,9 +100,9 @@ struct CPUTensor: public Tensor {
         
         /* create new CPUTensor, set it's storage to transposed */
         CPUTensor T(cols, rows);
-        T.storage->_copy(transposed);   
+        T.storage->_copy(transposed);
         return T;
-    }    
+    }
 
     double& operator()(int i, int j){
         return storage->data[i*cols + j];

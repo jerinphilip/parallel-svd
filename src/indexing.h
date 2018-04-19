@@ -38,8 +38,6 @@ struct block {
         r.start = x, r.end = y;
         return (*this)(r);
     }
-
-
 };
 
 #endif
