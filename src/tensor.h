@@ -21,6 +21,8 @@ struct Tensor {
 
 struct CPUTensor: public Tensor {
     CPUStorage *storage;
+    
+//    CPUTensor(): Tensor(0, 0) {};
 
     CPUTensor(int _rows, int _cols):
         Tensor(_rows, _cols) {
@@ -98,7 +100,7 @@ struct CPUTensor: public Tensor {
             }
         }
         
-        /* create new CPUTensor, set it's storage to transposed */
+        /* create new CPUTensor, set its storage to transposed */
         CPUTensor T(cols, rows);
         T.storage->_copy(transposed);
         return T;

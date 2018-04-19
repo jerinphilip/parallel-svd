@@ -56,6 +56,7 @@ namespace ops {
         CPUTensor C(A.rows, B.cols);
         for(int i=0; i < A.rows; i++){
             for(int j=0; j < B.cols; j++){
+                C(i, j) = 0;
                 for(int k=0; k < A.cols; k++){
                     C(i, j) += A(i, k)*B(k, j);
                 }

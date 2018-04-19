@@ -36,6 +36,35 @@ CPUTensor identity(CPUTensor I) {
     return I;
 }
 
+CPUTensor id_pad(CPUTensor A, int m) {
+    /* check if dims of A < m */
+    assert(A.rows < m && A.cols < m);
+    
+    /* create identity matrix */
+    CPUTensor I(m, m);
+    I = identity(I);
+    
+    /* overwrite with A from bottom-right */
+    for(int i = m-1, j = A.rows-1; i >= 0, j >= 0; i--, j--) {
+        for(int k = m-1, l = A.cols-1; k >= 0, l >= 0; k--, l--) {
+            I(i, k) = A(j, l);
+        }
+    }
+    
+    return I;
+}
+
+CPUTensor check_zeros(CPUTensor A) {
+    for(int i = 0; i < A.rows; i++) {
+        for(int j = 0; j < A.cols; j++) {
+            if(A(i, j) < 0.000000001 && A(i, j) > -0.000000001) {
+                A(i, j) = 0;
+            }
+        }
+    }
+    return A;
+}
+
 #define print_m(m) \
     std::cout << #m << ":\n";\
     std::cout << m ;
