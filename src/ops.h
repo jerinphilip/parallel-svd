@@ -81,7 +81,7 @@ namespace ops {
     double dot(const CPUTensor A, const CPUTensor B){
         assert (A.rows == B.rows);
         double ans=0;
-        for(int i=0;i < A.rows, i++)
+        for(int i=0;i < A.rows; i++)
             ans+=A(i,1)*B(i,1);
 
         return ans;
