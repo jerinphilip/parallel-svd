@@ -4,8 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <cstring>
-
-
+#include <cstdlib>
 
 struct Storage {
     double *data;
@@ -15,7 +14,7 @@ struct Storage {
 
 struct CPUStorage : public Storage {
     CPUStorage(int size): Storage(size){
-        data = (double*)(malloc)(sizeof(double)*size);
+        data = (double*)(std::malloc)(sizeof(double)*size);
         memset(data, 0, size);
     }
 
@@ -24,7 +23,7 @@ struct CPUStorage : public Storage {
     }
 
     ~CPUStorage(){
-        free(data);
+        std::free(data);
     }
 
 };

@@ -104,7 +104,7 @@ namespace ops {
     double norm(CPUTensor A) {
 //        std::cout << "in norm function\n";
         CPUTensor flattened = A.flatten();
-        print_m(flattened);
+//        print_m(flattened);
 //        std::cout << "flattened\n";
         double n2 = norm2(flattened);
 //        std::cout << "norm2 rcvd in norm as " << n2 << std::endl;
