@@ -2,6 +2,7 @@
 #include "tensor.h"
 #include "utils.h"
 #include "ops.h"
+#include "indexing.h"
 
 int main(int argc, char *argv[]){
     int m, n;

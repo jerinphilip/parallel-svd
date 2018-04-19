@@ -5,6 +5,7 @@
 #include <ctime>
 #include <cstdlib>
 #include "tensor.h"
+#include "indexing.h"
 
 CPUTensor random(int rows, int cols){
     CPUTensor C(rows, cols);
