@@ -1,5 +1,8 @@
 #ifndef OPS_H
 #define OPS_H
+
+#include <cmath>
+
 #include "tensor.h"
 
 
@@ -79,12 +82,35 @@ namespace ops {
     }
 
     double dot(const CPUTensor A, const CPUTensor B){
+//        std::cout << "in dot function\n";
         assert (A.rows == B.rows);
+//        std::cout << "assert passed\n";
         double ans=0;
-        for(int i=0;i < A.rows; i++)
-            ans+=A(i,1)*B(i,1);
-
+        for(int i=0;i < A.rows; i++) {
+            ans+=A(i,0)*B(i,0);
+//            std::cout << A(i, 0)*B(i, 0) << " added to ans, is now, " << ans << std::endl;
+        }
+//        std::cout << "ans calced as " << ans << std::endl;
         return ans;
+    }
+    
+    double norm2(const CPUTensor A) {
+//        std::cout << "in norm2 function\n";
+        double d = dot(A, A);
+//        std::cout << "dot pdct recvd in norm2 as " << d << std::endl;
+        return d;
+    }
+    
+    double norm(CPUTensor A) {
+//        std::cout << "in norm function\n";
+        CPUTensor flattened = A.flatten();
+        print_m(flattened);
+//        std::cout << "flattened\n";
+        double n2 = norm2(flattened);
+//        std::cout << "norm2 rcvd in norm as " << n2 << std::endl;
+        double n = sqrt(n2);
+//        std::cout << "norm calced as " << n << std::endl;
+        return n;
     }
 }
 

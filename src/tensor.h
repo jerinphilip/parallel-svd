@@ -6,7 +6,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <cstring>
-
+#include <cmath>
 
 struct Tensor {
     int rows, cols;
@@ -17,7 +17,6 @@ struct Tensor {
     int _size(){
         return rows*cols;
     }
-
 };
 
 struct CPUTensor: public Tensor {
@@ -56,7 +55,8 @@ struct CPUTensor: public Tensor {
 
         /* Iterate through standard way. cols, then rows; */
         CPUTensor R(new_rows, new_cols);
-        memcpy(R.storage, storage, sizeof(double)*_size());
+        R.storage->_copy(storage);
+//        memcpy(R.storage, storage, sizeof(double)*_size());
         return R;
     }
     
@@ -102,8 +102,7 @@ struct CPUTensor: public Tensor {
         CPUTensor T(cols, rows);
         T.storage->_copy(transposed);   
         return T;
-    }
-        
+    }    
 
     double& operator()(int i, int j){
         return storage->data[i*cols + j];
