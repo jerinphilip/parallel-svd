@@ -59,6 +59,30 @@ struct CPUTensor: public Tensor {
         memcpy(R.storage, storage, sizeof(double)*_size());
         return R;
     }
+    
+    void _transpose() {
+        /* create new CPUStorage transposed */
+        CPUStorage *transposed;
+        transposed = new CPUStorage(_size());
+    
+        /* populate transposed */
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                transposed->data[j*rows + i] = storage->data[i*cols + j];
+            }
+        }
+        
+        /* replace storage with transposed */
+        delete storage;
+        storage = new CPUStorage(_size());
+        storage->_copy(transposed);
+        
+        /* swap rows and cols for tensor */
+        int tmp;
+        tmp = rows;
+        rows = cols;
+        cols = tmp;
+    }
 
     double& operator()(int i, int j){
         return storage->data[i*cols + j];
