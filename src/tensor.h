@@ -60,6 +60,7 @@ struct CPUTensor: public Tensor {
         return R;
     }
     
+    /* transposes in place */
     void _transpose() {
         /* create new CPUStorage transposed */
         CPUStorage *transposed;
@@ -83,6 +84,26 @@ struct CPUTensor: public Tensor {
         rows = cols;
         cols = tmp;
     }
+    
+    /* returns new transposed CPUTensor */
+    CPUTensor transpose() {
+        /* create new CPUStorage transposed */
+        CPUStorage *transposed;
+        transposed = new CPUStorage(_size());
+    
+        /* populate transposed */
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < cols; j++) {
+                transposed->data[j*rows + i] = storage->data[i*cols + j];
+            }
+        }
+        
+        /* create new CPUTensor, set it's storage to transposed */
+        CPUTensor T(cols, rows);
+        T.storage->_copy(transposed);   
+        return T;
+    }
+        
 
     double& operator()(int i, int j){
         return storage->data[i*cols + j];
