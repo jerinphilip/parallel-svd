@@ -4,7 +4,7 @@
 
 struct range {
     int start, end;
-    range(): start(0), end(-1){}
+    range(): start(-1), end(-1){}
     range(int _start, int _end): start(_start), end(_end) {}
     bool isset(){ return start != -1; }
     int size() const { assert(end !=-1); return end - start; }
@@ -12,6 +12,14 @@ struct range {
 
 struct block {
     range row, col;
+    block(int x): col(-1, -1){
+        (*this)(x);
+    }
+
+    block(int x, int y): col(-1, -1){
+        (*this)(x, y);
+    }
+
     block operator()(range r){
         assert (not (row.isset() and col.isset()));
 

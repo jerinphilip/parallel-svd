@@ -65,6 +65,9 @@ namespace ops {
         if ( b.row.end == -1) b.row.end = A.rows;
         if ( b.col.end == -1) b.col.end = A.cols;
 
+        if ( b.row.start == -1) b.row.start = 0;
+        if ( b.col.start == -1) b.col.start = 0;
+
         CPUTensor C(b.row.size(), b.col.size());
         for(int i=b.row.start; i<b.row.end; i++){
             for(int j=b.col.start; j<b.col.end; j++){
