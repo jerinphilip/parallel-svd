@@ -32,3 +32,6 @@
 *.app
 
 env/
+*.swp
+*.swo
+*~
