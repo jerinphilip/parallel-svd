@@ -38,6 +38,12 @@ struct CUDAStorage: public Storage {
         assert(status == cudaSuccess);
 
     }
+
+    void _copy(CUDAStorage *b){
+        int incx=1, incy=1;
+        cublasDcopy(ctx->handle(), size, b->data, incx, data, incy);
+    }
+
     ~CUDAStorage(){
         cudaFree(data);
     }

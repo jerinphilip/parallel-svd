@@ -50,6 +50,13 @@ CPU_ELEMENT_WISE(-)
 CPU_ELEMENT_WISE(*)
 CPU_ELEMENT_WISE(/)
 
+    /*
+#define GPU_ELEMENT_WISE(op, alpha, beta) 
+
+CUDATensor operator op(const CUDATensor A, const CUDATensor B){
+}
+
+*/
 namespace ops {
     CPUTensor mul(const CPUTensor A, const CPUTensor B){
         assert ( A.cols == B.rows );

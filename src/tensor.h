@@ -7,6 +7,10 @@
 #include <cstdlib>
 #include <cstring>
 #include <cmath>
+#include "storage.h"
+
+//#define index(i, j, ld) (((j)*(ld)) + (i))
+#define index(i, j, ld) (((j)*(ld)) + (i))
 
 struct Tensor {
     int rows, cols;
@@ -71,7 +75,7 @@ struct CPUTensor: public Tensor {
         /* populate transposed */
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                transposed->data[j*rows + i] = storage->data[i*cols + j];
+                transposed->data[index(i, j, rows)] = storage->data[index(i, j, rows)];
             }
         }
         
@@ -96,7 +100,7 @@ struct CPUTensor: public Tensor {
         /* populate transposed */
         for(int i = 0; i < rows; i++) {
             for(int j = 0; j < cols; j++) {
-                transposed->data[j*rows + i] = storage->data[i*cols + j];
+                transposed->data[index(j, i, cols)] = storage->data[index(i, j, rows)];
             }
         }
         
@@ -107,11 +111,11 @@ struct CPUTensor: public Tensor {
     }
 
     double& operator()(int i, int j){
-        return storage->data[i*cols + j];
+        return storage->data[index(i, j, rows)];
     }
 
     double operator()(int i, int j) const {
-        return storage->data[i*cols + j];
+        return storage->data[index(i, j, rows)];
     }
 
     ~CPUTensor(){
@@ -128,6 +132,31 @@ struct CPUTensor: public Tensor {
         return out;
     }
 
+};
+
+struct CUDATensor : public Tensor {
+    CUDAStorage *storage;
+    CUDATensor(int _rows, int _cols): Tensor(_rows, _cols){
+        storage = new CUDAStorage(_size());
+    }
+
+    void _copy(CUDATensor *B){
+        storage->_copy(B->storage);
+    }
+
+    CPUTensor cpu(){
+        double *buffer;
+        buffer = (double*)std::malloc(_size()*sizeof(double));
+        cublasGetMatrix(rows, cols, 
+                sizeof(double), buffer, 
+                rows, 
+                storage->data, rows);
+        std::free(buffer);
+    }
+
+    friend std::ostream& operator <<(std::ostream &out, const CUDATensor B){
+        return out;
+    }
 };
 
 #endif
