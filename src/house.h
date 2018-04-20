@@ -4,10 +4,10 @@
 #include <cassert>
 #include <tuple>
 
-#include "tensor.h"
-#include "ops.h"
+#include "tensor/tensor.h"
+#include "tensor/ops.h"
 #include "utils.h"
-#include "indexing.h"
+#include "tensor/indexing.h"
 
 CPUTensor reflector(CPUTensor v) {
     /* check if v is 1-dim */

@@ -1,8 +1,8 @@
-#include "storage.h"
-#include "tensor.h"
+#include "storage/storage.h"
+#include "tensor/tensor.h"
 #include "utils.h"
-#include "ops.h"
-#include "indexing.h"
+#include "tensor/ops.h"
+#include "tensor/indexing.h"
 #include "house.h"
 
 int main(int argc, char *argv[]){

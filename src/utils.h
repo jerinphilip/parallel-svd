@@ -6,8 +6,8 @@
 #include <cstdlib>
 #include <cassert>
 
-#include "tensor.h"
-#include "indexing.h"
+#include "tensor/tensor.h"
+#include "tensor/indexing.h"
 
 CPUTensor random(int rows, int cols){
     CPUTensor C(rows, cols);
