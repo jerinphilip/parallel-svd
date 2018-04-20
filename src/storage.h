@@ -20,7 +20,13 @@ struct CPUStorage : public Storage {
     }
 
     void _copy(CPUStorage *b){
+        assert (size == b->size);
         memcpy(data, b->data, sizeof(double)*size);
+    }
+
+    void _dcopy(const double *d, int _size){
+        assert (size == _size);
+        memcpy(data, d, sizeof(double)*size);
     }
 
     ~CPUStorage(){
@@ -32,7 +38,7 @@ struct CPUStorage : public Storage {
 struct CUDAStorage: public Storage {
     static CUDAContext *ctx;
     CUDAStorage(int size): Storage(size){
-        bool status;
+        int status;
         status = cudaMalloc((void**)&data, sizeof(double)*size);
         /* TODO assertions on status */
         assert(status == cudaSuccess);
@@ -40,8 +46,9 @@ struct CUDAStorage: public Storage {
     }
 
     void _copy(CUDAStorage *b){
-        int incx=1, incy=1;
-        cublasDcopy(ctx->handle(), size, b->data, incx, data, incy);
+        int incx=1, incy=1, status;
+        status = cublasDcopy(ctx->handle(), size, b->data, incx, data, incy);
+        assert (status == CUBLAS_STATUS_SUCCESS);
     }
 
     ~CUDAStorage(){

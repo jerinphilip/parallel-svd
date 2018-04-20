@@ -38,8 +38,11 @@ int main(int argc, char *argv[]){
     print_m(A * B);
     print_m(A / B);
 //    print_m(ops::mul(A, B));
+//
+//
     
     std::cout << std::endl << "gogol tests" << std::endl;
+    _assert(A, A.transpose().transpose());
 /*    print_m(A);
     std::cout << std::endl << "transpose:" << std::endl;
     A._transpose();
@@ -75,5 +78,9 @@ int main(int argc, char *argv[]){
     
     print_m(C);
     print_m(E);
+
+    CUDATensor CDA(C); 
+    print_m(CDA);
+
     return 0;
 }

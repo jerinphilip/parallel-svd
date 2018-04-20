@@ -1,9 +1,12 @@
-NVCC='nvcc'
+_NVCC='nvcc'
 NVFLAGS='-lcublas'
 CXXFLAGS='-std=c++11'
+DEBUGFLAGS='-g'
+
+NVCC=$(_NVCC) $(NVFLAGS) $(CXXFLAGS) $(DEBUGFLAGS)
 
 test:
-	$(NVCC) $(NVFLAGS) $(CXXFLAGS)  test.cpp
+	$(NVCC) test.cpp
 
 test_cuda:
-	$(NVCC) $(NVFLAGS) $(CXXFLAGS)  test_cuda.cpp
+	$(NVCC) test_cuda.cpp

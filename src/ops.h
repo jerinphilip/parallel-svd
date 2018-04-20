@@ -50,6 +50,10 @@ CPU_ELEMENT_WISE(-)
 CPU_ELEMENT_WISE(*)
 CPU_ELEMENT_WISE(/)
 
+bool operator==(const CPUTensor A, const CPUTensor B){
+    return (A - B).is_zero();
+}
+
     /*
 #define GPU_ELEMENT_WISE(op, alpha, beta) 
 
@@ -119,6 +123,7 @@ namespace ops {
         }
         return A;
     }
+
 }
 
 #endif

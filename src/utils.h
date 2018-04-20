@@ -67,6 +67,11 @@ CPUTensor check_zeros(CPUTensor A) {
 
 #define print_m(m) \
     std::cout << #m << ":\n";\
-    std::cout << m ;
+    std::cout << m << "\n" ;
+
+#define _assert(x, y) \
+    std::cout << (#x) << " = " << (#y) << "?\n"; \
+    assert((x) == (y));
+
 
 #endif

@@ -18,7 +18,7 @@ struct Tensor {
         rows(_rows), cols(_cols){
     }
 
-    int _size(){
+    int _size() const{
         return rows*cols;
     }
 };
@@ -36,6 +36,17 @@ struct CPUTensor: public Tensor {
     CPUTensor(const CPUTensor &B): Tensor(B.rows, B.cols){
         storage = new CPUStorage(_size());
         storage->_copy(B.storage);
+    }
+
+    bool is_zero(){
+        double EPS = 1e-9;
+        for(int i=0; i < rows; i++){
+            for(int j=0; j <cols; j++){
+                if (abs((*this)(i, j)) > EPS)
+                    return false;
+            }
+        }
+        return true;
     }
 
     void operator=(const CPUTensor A){
@@ -122,6 +133,13 @@ struct CPUTensor: public Tensor {
         delete storage;
     }
 
+
+    static CPUTensor from_array(const double *A, int rows, int cols){
+        CPUTensor C(rows, cols);
+        C.storage->_dcopy(A, rows*cols);
+        return C;
+    }
+
     friend std::ostream& operator <<(std::ostream &out, const CPUTensor B){
         for(int i=0; i < B.rows; i++){
             for(int j=0; j < B.cols; j++){
@@ -144,17 +162,33 @@ struct CUDATensor : public Tensor {
         storage->_copy(B->storage);
     }
 
-    CPUTensor cpu(){
-        double *buffer;
-        buffer = (double*)std::malloc(_size()*sizeof(double));
-        cublasGetMatrix(rows, cols, 
-                sizeof(double), buffer, 
+    CUDATensor(CPUTensor C): Tensor(C.rows, C.cols){
+        storage = new CUDAStorage(_size());
+        int status;
+        status = cublasSetMatrix(rows, cols, sizeof(double), 
+                C.storage->data,
                 rows, 
                 storage->data, rows);
+        assert(status == CUBLAS_STATUS_SUCCESS);
+    }
+
+    CPUTensor cpu() const{
+        double *buffer;
+        buffer = NULL;
+        buffer = (double*)std::malloc(_size()*sizeof(double));
+        int status;
+        status = cublasGetMatrix(rows, cols, 
+                sizeof(double), storage->data, 
+                rows, 
+                buffer, rows);
+        assert(status == CUBLAS_STATUS_SUCCESS);
+        CPUTensor C = CPUTensor::from_array(buffer, rows, cols);
         std::free(buffer);
+        return C;
     }
 
     friend std::ostream& operator <<(std::ostream &out, const CUDATensor B){
+        out << B.cpu();
         return out;
     }
 };
