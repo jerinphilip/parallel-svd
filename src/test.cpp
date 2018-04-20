@@ -1,9 +1,9 @@
 #include "storage/storage.h"
 #include "tensor/tensor.h"
-#include "utils.h"
 #include "tensor/ops.h"
 #include "tensor/indexing.h"
-#include "house.h"
+#include "utils/utils.h"
+#include "linalg/linalg.h"
 
 int main(int argc, char *argv[]){
     int m, n;

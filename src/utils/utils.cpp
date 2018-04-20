@@ -1,13 +1,4 @@
-#ifndef UTILS_H
-#define UTILS_H
-
-#include <iostream>
-#include <ctime>
-#include <cstdlib>
-#include <cassert>
-
-#include "tensor/tensor.h"
-#include "tensor/indexing.h"
+#include "utils.h"
 
 CPUTensor random(int rows, int cols){
     CPUTensor C(rows, cols);
@@ -65,13 +56,3 @@ CPUTensor check_zeros(CPUTensor A) {
     return A;
 }
 
-#define print_m(m) \
-    std::cout << #m << ":\n";\
-    std::cout << m << "\n" ;
-
-#define _assert(x, y) \
-    std::cout << (#x) << " = " << (#y) << "?\n"; \
-    assert((x) == (y));
-
-
-#endif
