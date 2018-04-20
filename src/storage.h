@@ -5,6 +5,7 @@
 #include <vector>
 #include <cstring>
 #include <cstdlib>
+#include "cuda.h"
 
 struct Storage {
     double *data;
@@ -29,7 +30,20 @@ struct CPUStorage : public Storage {
 };
 
 struct CUDAStorage: public Storage {
+    static CUDAContext *ctx;
+    CUDAStorage(int size): Storage(size){
+        bool status;
+        status = cudaMalloc((void**)&data, sizeof(double)*size);
+        /* TODO assertions on status */
+        assert(status == cudaSuccess);
+
+    }
+    ~CUDAStorage(){
+        cudaFree(data);
+    }
 
 };
+
+CUDAContext* CUDAStorage::ctx = CUDAContext::getInstance();
 
 #endif
