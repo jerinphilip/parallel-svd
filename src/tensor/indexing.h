@@ -1,5 +1,6 @@
 #ifndef INDEXING_H
 #define INDEXING_H
+
 #include <cassert>
 
 struct range {

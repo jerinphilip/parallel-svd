@@ -14,13 +14,13 @@ CPUTensor reflector(CPUTensor v) {
     assert(v.cols == 1);
 
     /* find norm of the vector */
-    double norm_x = ops::norm(v);
+    double norm_x = norm(v);
 
     /* subtract it from first element */
     v(0, 0) -= norm_x;
 
     /* normalize the vector */
-    double norm_u = ops::norm(v);
+    double norm_u = norm(v);
 
     for(int i = 0; i < v.rows; i++) {
         v(i, 0) /= norm_u;
@@ -36,13 +36,13 @@ CPUTensor house(CPUTensor v) {
     /* calculate v * v_transpose */
     CPUTensor v_transpose = v.transpose();
     
-    CPUTensor vvT = ops::mul(v, v_transpose);
+    CPUTensor vvT = v*v_transpose;
     
     /* H = I - 2vvT */
     CPUTensor I(v.rows, v.rows);
     I = identity(I);
     
-    vvT = ops::smul(vvT, 2);
+    vvT = 2*vvT;
     
     CPUTensor H = I-vvT;
     
@@ -85,7 +85,7 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor A) {
         if(row_iter < diag) {
             /* slice x col out of A */
             block col = block(row_iter, A.rows)(row_iter, row_iter+1);
-            x = ops::slice(A, col);
+            x = slice(A, col);
             
             /* generate hh matrix based on x */
             if (x.rows > 1) {
@@ -98,10 +98,10 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor A) {
                 }
                 
                 /* multiply H with A from the left */
-                A = ops::mul(H, A);
+                A = H*A;
                 A = check_zeros(A);
                 
-                Q_t = ops::mul(H, Q_t);
+                Q_t = H*Q_t;
             }
             
             row_iter++;
@@ -113,7 +113,7 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor A) {
         if(col_iter < udiag) {      
             /* slice y row out of A */
             block row = block(col_iter, col_iter+1)(col_iter+1, A.cols);
-            y = ops::slice(A, row);
+            y = slice(A, row);
 
             if(y.cols > 1) {
                 /* generate hh matrix based on y */
@@ -126,10 +126,10 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor A) {
                 }
                 
                 /* multiply K with A from the right */
-                A = ops::mul(A, K);
+                A = A*K;
                 A = check_zeros(A);
                 
-                P = ops::mul(P, K);
+                P = P*K;
             }
             
             col_iter++;

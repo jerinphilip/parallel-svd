@@ -30,14 +30,14 @@ int main(int argc, char *argv[]){
      * All ops are defined in "ops.h"
      */
 
-    print_m(ops::slice(A, s));
+    print_m(slice(A, s));
     print_m(A);
     print_m(B);
     print_m(A + B);
     print_m(A - B);
     print_m(A * B);
     print_m(A / B);
-//    print_m(ops::mul(A, B));
+//    print_m(mul(A, B));
 //
 //
     
@@ -53,7 +53,7 @@ int main(int argc, char *argv[]){
     
     CPUTensor C = A.transpose();
     print_m(C);
-    double test = ops::norm(A);
+    double test = norm(A);
     std::cout << "norm of A is " << test << std::endl;
     
     CPUTensor house_v = reflector(A.flatten());
@@ -71,8 +71,8 @@ int main(int argc, char *argv[]){
     print_m(D);
     print_m(E);
     
-    C = ops::mul(C, C.transpose());
-    E = ops::mul(E, E.transpose());
+    C = C*C.transpose();
+    E = E*E.transpose();
     C = check_zeros(C);
     E = check_zeros(E);
     
