@@ -5,18 +5,21 @@
 #include "tensor.h"
 #include "indexing.h"
 
-CPUTensor operator+(const CPUTensor, const CPUTensor);
-CPUTensor operator-(const CPUTensor, const CPUTensor);
-CPUTensor operator*(const CPUTensor, const CPUTensor);
-CPUTensor operator*(const double, const CPUTensor);
-CPUTensor operator*(const CPUTensor, const double);
-CPUTensor operator/(const CPUTensor, const CPUTensor);
-bool operator==(const CPUTensor, const CPUTensor);
+#define declare_ops(_tensor)                         \
+    _tensor operator+(const _tensor, const _tensor); \
+    _tensor operator-(const _tensor, const _tensor); \
+    _tensor operator*(const _tensor, const _tensor); \
+    _tensor operator*(const double, const _tensor);  \
+    _tensor operator*(const _tensor, const double);  \
+    _tensor operator/(const _tensor, const _tensor); \
+    bool operator==(const _tensor, const _tensor);   \
+    _tensor slice(const _tensor, block b);           \
+    double norm2(const _tensor);                     \
+    double norm(const _tensor);                      \
+    double dot(const _tensor, const _tensor);
 
-CPUTensor slice(const CPUTensor, block b);
-double norm2(const CPUTensor);
-double norm(const CPUTensor);
-double dot(const CPUTensor, const CPUTensor);
+declare_ops(CPUTensor);
+declare_ops(CUDATensor);
 
 
 #endif
