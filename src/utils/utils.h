@@ -20,5 +20,6 @@
 CPUTensor random(int, int);
 CPUTensor identity(CPUTensor);
 CPUTensor id_pad(CPUTensor,int);
+CPUTensor id_pad_at(int, CPUTensor, int);
 CPUTensor check_zeros(CPUTensor);
 #endif

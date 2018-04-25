@@ -27,9 +27,10 @@ CPUTensor identity(CPUTensor I) {
     return I;
 }
 
+/* puts A in the bottom left corner of I matrix */
 CPUTensor id_pad(CPUTensor A, int m) {
     /* check if dims of A < m */
-    assert(A.rows < m && A.cols < m);
+    assert(A.rows <= m && A.cols <= m);
     
     /* create identity matrix */
     CPUTensor I(m, m);
@@ -39,6 +40,25 @@ CPUTensor id_pad(CPUTensor A, int m) {
     for(int i = m-1, j = A.rows-1; i >= 0, j >= 0; i--, j--) {
         for(int k = m-1, l = A.cols-1; k >= 0, l >= 0; k--, l--) {
             I(i, k) = A(j, l);
+        }
+    }
+    
+    return I;
+}
+
+/* puts A's top left corner at the (pos, pos) position */
+CPUTensor id_pad_at(int pos, CPUTensor A, int m) {
+    /* check if dims of A < m adjusted at pos */
+    assert(A.rows <= m-pos && A.cols <= m-pos);
+    
+    /* create identity matrix */
+    CPUTensor I(m, m);
+    I = identity(I);
+    
+    /* overwrite A starting from (pos, pos) */
+    for(int i = pos, p = 0; p < A.rows; i++, p++) {
+        for(int j = pos, q = 0; q < A.cols; j++, q++) {
+            I(i, j) = A(p, q);
         }
     }
     

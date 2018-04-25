@@ -9,10 +9,12 @@
 #include "tensor/indexing.h"
 #include "utils/utils.h"
 
-/* Householder stuff */
+/* Householder and Givens stuff */
 
 CPUTensor reflector(CPUTensor);
 CPUTensor house(CPUTensor);
+CPUTensor givens(CPUTensor, int, int);
 std::tuple <CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor);
+std::tuple <CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor);
 
 #endif

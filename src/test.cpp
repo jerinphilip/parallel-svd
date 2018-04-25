@@ -71,6 +71,11 @@ int main(int argc, char *argv[]){
     print_m(D);
     print_m(E);
     
+    print_m(D);
+    print_m(check_zeros(C*A*E));
+    
+    _assert(C*A*E, D);
+    
     C = C*C.transpose();
     E = E*E.transpose();
     C = check_zeros(C);
@@ -78,9 +83,21 @@ int main(int argc, char *argv[]){
     
     print_m(C);
     print_m(E);
-
+/*
     CUDATensor CDA(C); 
     print_m(CDA);
+*/    
+    _assert((A+B)+(A-B), 2*A);
+    std::cout << "tests passed\n";
+    
+    auto diag_products = diagonalize(D);
+    CPUTensor P = std::get<0>(diag_products);
+    CPUTensor Q = std::get<1>(diag_products);
+    CPUTensor R = std::get<2>(diag_products);
+    
+    _assert(P*D*R, Q);
+    print_m(check_zeros(P*P.transpose()));
+    print_m(check_zeros(R*R.transpose()));
 
     return 0;
 }

@@ -21,6 +21,19 @@ bool CPUTensor::is_zero(){
     return true;
 }
 
+bool CPUTensor::is_diagonal() {
+    for(int i = 0; i < rows; i++) {
+        for(int j = 0; j < cols; j++) {
+            if(i != j) {
+                if((*this)(i, j) != 0) {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
 void CPUTensor::operator=(const CPUTensor A){
     /* 
      * TODO

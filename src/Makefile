@@ -1,6 +1,6 @@
 _NVCC='nvcc'
 NVFLAGS='-lcublas'
-CXXFLAGS='-std=c++11'
+CXXFLAGS="-std=c++11" "-I ."
 DEBUGFLAGS='-g'
 
 NVCC=$(_NVCC) $(NVFLAGS) $(CXXFLAGS) $(DEBUGFLAGS)

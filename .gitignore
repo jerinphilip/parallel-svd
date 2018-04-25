@@ -35,3 +35,9 @@ env/
 *.swp
 *.swo
 *~
+
+# MNIST stuff
+mnist/t*
+
+# ipynb
+*.ipynb

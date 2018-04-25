@@ -31,6 +31,7 @@ struct CPUTensor: public Tensor {
     CPUTensor(int _rows, int _cols);
     CPUTensor(const CPUTensor &B);
     bool is_zero();
+    bool is_diagonal();
     void operator=(const CPUTensor A);
     CPUTensor flatten();
     CPUTensor reshape(int new_rows, int new_cols);
