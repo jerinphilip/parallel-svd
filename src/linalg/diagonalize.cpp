@@ -35,13 +35,13 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
             
             B = B*G.transpose();
             Y = Y*G.transpose();
-            
+
             /* slice the col pair to be rotated out of B */
             block pair2 = block(i, i+2)(i, i+1);
             y = slice(B, pair2);
             
             /* do givens rotation based on y */
-            G = givens(y, i, B.cols);
+            G = givens(y, i, B.rows);
             
             B = G*B;
             X_t = G*X_t;

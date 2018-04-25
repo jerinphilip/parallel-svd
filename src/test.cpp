@@ -1,3 +1,5 @@
+#include <cassert>
+
 #include "storage/storage.h"
 #include "tensor/tensor.h"
 #include "tensor/ops.h"
@@ -7,7 +9,10 @@
 
 int main(int argc, char *argv[]){
     int m, n;
+    
+    /* m >= n */
     m = 5, n = 5;
+    assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
     CPUTensor A(m, n), B(m, n);
@@ -35,7 +40,7 @@ int main(int argc, char *argv[]){
     print_m(B);
     print_m(A + B);
     print_m(A - B);
-    print_m(A * B);
+//    print_m(A * B);
     print_m(A / B);
 //    print_m(mul(A, B));
 //
@@ -96,6 +101,7 @@ int main(int argc, char *argv[]){
     CPUTensor R = std::get<2>(diag_products);
     
     _assert(P*D*R, Q);
+    print_m(Q);
     print_m(check_zeros(P*P.transpose()));
     print_m(check_zeros(R*R.transpose()));
 
