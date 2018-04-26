@@ -93,7 +93,6 @@ int main(int argc, char *argv[]){
     print_m(CDA);
 */    
     _assert((A+B)+(A-B), 2*A);
-    std::cout << "tests passed\n";
     
     auto diag_products = diagonalize(D);
     CPUTensor P = std::get<0>(diag_products);

@@ -14,8 +14,9 @@
     std::cout << m << "\n" ;
 
 #define _assert(x, y) \
-    std::cout << (#x) << " = " << (#y) << "?\n"; \
-    assert((x) == (y));
+    std::cout << (#x) << " = " << (#y) << "? "; \
+    assert((x) == (y)); \
+    std::cout << "\033[42;30m OK \033[0m\n"; \
 
 CPUTensor random(int, int);
 CPUTensor identity(CPUTensor);
