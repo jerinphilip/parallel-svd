@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     int m, n;
     
     /* m >= n */
-    m = 5, n = 5;
+    m = 4, n = 3;
     assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     
     CPUTensor house_H = house(house_v);
     print_m(house_H);*/
-    
+/*    
     print_m(A);
     auto bidiag_products = bidiagonalize(A);
     CPUTensor C = std::get<0>(bidiag_products);
@@ -88,10 +88,10 @@ int main(int argc, char *argv[]){
     
     print_m(C);
     print_m(E);
-/*
+*//*
     CUDATensor CDA(C); 
     print_m(CDA);
-*/    
+*//*    
     _assert((A+B)+(A-B), 2*A);
     
     auto diag_products = diagonalize(D);
@@ -103,6 +103,17 @@ int main(int argc, char *argv[]){
     print_m(Q);
     print_m(check_zeros(P*P.transpose()));
     print_m(check_zeros(R*R.transpose()));
-
+*/
+    auto svd_products = svd(A);
+    CPUTensor U = std::get<0>(svd_products);
+    CPUTensor sigma = std::get<1>(svd_products);
+    CPUTensor V_t = std::get<2>(svd_products);
+    
+    print_m(U);
+    print_m(sigma);
+    print_m(V_t.transpose());
+    
+    print_m(check_zeros(U*U.transpose()));
+    print_m(check_zeros(V_t*V_t.transpose()));
     return 0;
 }

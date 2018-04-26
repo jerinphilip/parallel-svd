@@ -16,5 +16,6 @@ CPUTensor house(CPUTensor);
 CPUTensor givens(CPUTensor, int, int);
 std::tuple <CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor);
 std::tuple <CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor);
+std::tuple <CPUTensor, CPUTensor, CPUTensor> svd(CPUTensor A);
 
 #endif
