@@ -20,8 +20,6 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
         udiag = B.cols-1;
     }
     
-    print_m(B);
-    
     while(!B.is_diagonal()) {
         /* iterate for each pair of diagonal and upper diagonal elements to 
            eliminate the upper diagonal element                               */
