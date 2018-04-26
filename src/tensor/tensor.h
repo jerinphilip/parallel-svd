@@ -52,6 +52,7 @@ struct CUDATensor : public Tensor {
 
     void _copy(CUDATensor *B);
     CPUTensor cpu() const;
+    void operator=(const CUDATensor &B);
 
     friend std::ostream& operator <<(std::ostream &out, const CUDATensor B);
 };

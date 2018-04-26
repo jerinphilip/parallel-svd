@@ -18,6 +18,16 @@ void CUDATensor::_copy(CUDATensor *B){
     storage->_copy(B->storage);
 }
 
+void CUDATensor::operator=(const CUDATensor &B){
+    if(storage)
+        delete storage;
+
+    rows = B.rows;
+    cols = B.cols;
+    storage = new CUDAStorage(_size());
+    storage->_copy(B.storage);
+}
+
 
 CPUTensor CUDATensor::cpu() const{
     double *buffer;
