@@ -1,4 +1,40 @@
 #include "tensor.h"
+#include "cublas_v2.h"
+//#include "utils/utils.h"
+
+static const char* _cudaGetErrorEnum(cublasStatus_t error)
+{
+    switch (error)
+    {
+        case CUBLAS_STATUS_SUCCESS:
+            return "CUBLAS_STATUS_SUCCESS";
+
+        case CUBLAS_STATUS_NOT_INITIALIZED:
+            return "CUBLAS_STATUS_NOT_INITIALIZED";
+
+        case CUBLAS_STATUS_ALLOC_FAILED:
+            return "CUBLAS_STATUS_ALLOC_FAILED";
+
+        case CUBLAS_STATUS_INVALID_VALUE:
+            return "CUBLAS_STATUS_INVALID_VALUE";
+
+        case CUBLAS_STATUS_ARCH_MISMATCH:
+            return "CUBLAS_STATUS_ARCH_MISMATCH";
+
+        case CUBLAS_STATUS_MAPPING_ERROR:
+            return "CUBLAS_STATUS_MAPPING_ERROR";
+
+        case CUBLAS_STATUS_EXECUTION_FAILED:
+            return "CUBLAS_STATUS_EXECUTION_FAILED";
+
+        case CUBLAS_STATUS_INTERNAL_ERROR:
+            return "CUBLAS_STATUS_INTERNAL_ERROR";
+    }
+
+    return "<unknown>";
+}
+
+CUDAContext *ctx2 = CUDAContext::getInstance();
 
 CUDATensor::CUDATensor(int _rows, int _cols): Tensor(_rows, _cols){
     storage = new CUDAStorage(_size());
@@ -26,7 +62,7 @@ void CUDATensor::operator=(const CUDATensor &B){
     cols = B.cols;
     storage = new CUDAStorage(_size());
     storage->_copy(B.storage);
-}
+} 
 
 
 CPUTensor CUDATensor::cpu() const{

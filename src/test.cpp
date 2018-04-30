@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     int m, n;
     
     /* m >= n */
-    m = 4, n = 4;
+    m = 5, n = 5;
     assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
@@ -54,7 +54,7 @@ int main(int argc, char *argv[]){
     _assert((3.0*A), (A*3.0));
     _assert((3.0*A), (gA*3.0).cpu());
 //    print_m(mul(A, B));
-    _assert(A*B, (gA*gB).cpu());
+//    _assert(A*B, (gA*gB).cpu());
 //
 //
     
@@ -115,7 +115,7 @@ int main(int argc, char *argv[]){
     print_m(Q);
     print_m(check_zeros(P*P.transpose()));
     print_m(check_zeros(R*R.transpose()));
-*/
+*//*
     auto svd_products = svd(A);
     CPUTensor U = std::get<0>(svd_products);
     CPUTensor sigma = std::get<1>(svd_products);
@@ -127,5 +127,9 @@ int main(int argc, char *argv[]){
     
     print_m(check_zeros(U*U.transpose()));
     print_m(check_zeros(V_t*V_t.transpose()));
+*/    
+    print_m(gA);
+    _assert(transpose(transpose(gA)).cpu(), gA.cpu());
+    
     return 0;
 }

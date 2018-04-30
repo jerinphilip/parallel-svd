@@ -75,4 +75,3 @@ CPUTensor check_zeros(CPUTensor A) {
     }
     return A;
 }
-
