@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     int m, n;
     
     /* m >= n */
-    m = 5, n = 5;
+    m = 3, n = 3;
     assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
@@ -128,8 +128,27 @@ int main(int argc, char *argv[]){
     print_m(check_zeros(U*U.transpose()));
     print_m(check_zeros(V_t*V_t.transpose()));
 */    
-    print_m(gA);
     _assert(transpose(transpose(gA)).cpu(), gA.cpu());
     
+    CPUTensor x(m, 1), y(m, 1);
+    CUDATensor X(m, 1), Y(m, 1);
+    x = random(m, 1);
+    y = random(m, 1);
+    X = x;
+    Y = y;
+    
+    double r;
+    r = dot(X, Y);
+/*    
+    print_m(x);
+    print_m(y);
+    print_m(X);
+    print_m(Y);
+    print_m(r);
+*/
+    _assert(dot(x, y), dot(X, Y));
+    
+    print_m(X);
+    print_m(GPUnorm(X));
     return 0;
 }

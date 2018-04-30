@@ -111,7 +111,6 @@ CUDATensor transpose(CUDATensor A) {
     
     double alpha, beta;
     alpha = 1.0;
-    beta = 0.0;
     
     cublasStatus_t status;
     status = cublasDgeam(ctx->handle(),
@@ -120,9 +119,39 @@ CUDATensor transpose(CUDATensor A) {
                 &alpha,
                 A.storage->data, A.rows, 
                 &beta,
-                NULL, T.rows,
+                A.storage->data, A.rows,
                 T.storage->data, T.rows);
 //    std::cout << _cudaGetErrorEnum(status) << std::endl;
-    assert(status == CUBLAS_STATUS_SUCCESS);               
+    assert(status == CUBLAS_STATUS_SUCCESS);  
     return T;
+}
+
+double GPUnorm(CUDATensor A) {
+    assert(A.cols == 1);
+ 
+    double result;
+    int incx;
+    incx = 1;
+/* 
+    cublasStatus_t status;   
+    status = cublasDnrm2(ctx->handle, A.rows, A.storage->data, incx, &result);
+    assert(status == CUBLAS_STATUS_SUCCESS);*/
+    return result;
+}
+
+double dot(CUDATensor A, CUDATensor B) {
+    assert(A.rows == B.rows);
+    assert(A.cols == 1 && B.cols == 1);
+    
+    double result;
+    int incx, incy;
+    incx = incy = 1;
+    
+    cublasStatus_t status;
+    status = cublasDdot(ctx->handle(), A.rows,
+                        A.storage->data, incx,
+                        B.storage->data, incy,
+                        &result);
+    
+    return result;                        
 }
