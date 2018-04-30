@@ -1,10 +1,11 @@
 #include "storage.h"
 
 CUDAStorage::CUDAStorage(int size): Storage(size){
-    int status;
-    status = cudaMalloc((void**)&data, sizeof(double)*size);
+    int alloc, mset;
+    alloc = cudaMalloc((void**)&data, sizeof(double)*size);
     /* TODO assertions on status */
-    assert(status == cudaSuccess);
+    mset = cudaMemset(data, 0.0, sizeof(double)*size);
+    assert(alloc == cudaSuccess and mset == cudaSuccess);
 
 }
 void CUDAStorage::_copy(CUDAStorage *b){
