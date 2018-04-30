@@ -16,11 +16,15 @@ int main(int argc, char *argv[]){
 
     /* Initialization of a CPU Tensor. */
     CPUTensor A(m, n), B(m, n);
+    CUDATensor gA(m, n), gB(m, n);
 
 
     /* Utility to get random matrices. "utils.h" */
     A = random(m, n);
     B = random(m, n);
+    
+    gA = A;
+    gB = B;
 
     /* 
      * Block description syntax. 
@@ -42,6 +46,9 @@ int main(int argc, char *argv[]){
     print_m(A - B);
 //    print_m(A * B);
     print_m(A / B);
+
+    _assert((A + B),  (gA + gB).cpu());
+    _assert((A - B),  (gA - gB).cpu());
 //    print_m(mul(A, B));
 //
 //
