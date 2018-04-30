@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     int m, n;
     
     /* m >= n */
-    m = 4, n = 3;
+    m = 4, n = 4;
     assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
@@ -49,9 +49,9 @@ int main(int argc, char *argv[]){
 
     _assert((A + B),  (gA + gB).cpu());
     _assert((A - B),  (gA - gB).cpu());
-    _assert((3.0*A). (A*3.0));
     print_m(gA*3.0);
     print_m(3.0*A);
+    _assert((3.0*A), (A*3.0));
     _assert((3.0*A), (gA*3.0).cpu());
 //    print_m(mul(A, B));
     _assert(A*B, (gA*gB).cpu());
