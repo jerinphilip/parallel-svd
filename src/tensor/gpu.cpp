@@ -1,6 +1,4 @@
 #include "tensor.h"
-#include "cublas_v2.h"
-//#include "utils/utils.h"
 
 CUDATensor::CUDATensor(int _rows, int _cols): Tensor(_rows, _cols){
     storage = new CUDAStorage(_size());
