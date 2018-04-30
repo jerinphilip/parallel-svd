@@ -16,7 +16,7 @@
     _tensor slice(const _tensor, block b);           \
     double norm2(const _tensor);                     \
     double norm(const _tensor);                      \
-    double dot(const _tensor, const _tensor);        \
+    double dot(const _tensor, const _tensor);
 
 declare_ops(CPUTensor);
 declare_ops(CUDATensor);
