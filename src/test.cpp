@@ -49,6 +49,8 @@ int main(int argc, char *argv[]){
 
     _assert((A + B),  (gA + gB).cpu());
     _assert((A - B),  (gA - gB).cpu());
+    _assert((3.0*A). (A*3.0));
+    _assert((3.0*A). (gA*3.0).cpu());
 //    print_m(mul(A, B));
 //
 //

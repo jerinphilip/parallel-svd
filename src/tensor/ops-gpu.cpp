@@ -39,3 +39,16 @@ CUDATensor operator-(CUDATensor A, CUDATensor B){
     return C;
 }
 
+CUDATensor operator*(double alpha, CUDATensor A){
+    CUDATensor C(A.rows, A.cols);
+    int n, incx, incy;
+    incx = 1, incy = 1;
+    n = A._size();
+    cublasDaxpy(ctx->handle(), n, &alpha, 
+            A.storage->data, incx,
+            C.storage->data, incy);
+}
+
+CUDATensor operator*(CUDATensor A, double alpha){
+    return alpha*A;
+}
