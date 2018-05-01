@@ -149,6 +149,6 @@ int main(int argc, char *argv[]){
     _assert(dot(x, y), dot(X, Y));
     
     print_m(X);
-    print_m(GPUnorm(X));
+    print_m(norm(X));
     return 0;
 }

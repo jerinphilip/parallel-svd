@@ -126,7 +126,7 @@ CUDATensor transpose(CUDATensor A) {
     return T;
 }
 
-double GPUnorm(CUDATensor A) {
+double norm2(CUDATensor A) {
     assert(A.cols == 1);
  
     double result;
@@ -136,6 +136,13 @@ double GPUnorm(CUDATensor A) {
     status = cublasDnrm2(ctx->handle(), A.rows, A.storage->data, incx, &result);
     assert(status == CUBLAS_STATUS_SUCCESS);
     return result;
+}
+
+double norm(CUDATensor A) {
+    CUDATensor flattened = A.flatten();
+    double n2 = norm2(flattened);
+    double n = sqrt(n2);
+    return n;
 }
 
 double dot(CUDATensor A, CUDATensor B) {
@@ -153,4 +160,28 @@ double dot(CUDATensor A, CUDATensor B) {
                         &result);
     
     return result;                        
+}
+
+CUDATensor slice(const CUDATensor A, block b){
+    if ( b.row.end == -1) b.row.end = A.rows;
+    if ( b.col.end == -1) b.col.end = A.cols;
+
+    if ( b.row.start == -1) b.row.start = 0;
+    if ( b.col.start == -1) b.col.start = 0;
+
+    CUDATensor C(b.row.size(), b.col.size());
+
+    /* Column major storage */
+    int i, k;
+    int incx=1, incy=1;
+    for(int j=b.col.start; j<b.col.end; j++){
+        i = index(j, 0, C.rows);
+        k = index(j-b.col.start, 0, b.row.size());
+        cublasDcopy(ctx->handle(), b.row.size(),
+                &A.storage->data[i], incx,
+                &C.storage->data[k], incy);
+    }
+
+    return C;
+
 }

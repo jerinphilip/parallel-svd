@@ -44,6 +44,19 @@ CPUTensor CUDATensor::cpu() const{
     return C;
 }
 
+CUDATensor CUDATensor::reshape(int new_rows, int new_cols){
+    assert( (rows * cols) == (new_rows * new_cols));
+    CUDATensor R(new_rows, new_cols);
+    R.storage->_copy(storage);
+    //        memcpy(R.storage, storage, sizeof(double)*_size());
+    return R;
+
+}
+
+CUDATensor CUDATensor::flatten(){
+    return reshape(rows*cols, 1);
+}
+
 std::ostream& operator <<(std::ostream &out, const CUDATensor B){
     out << B.cpu();
     return out;
