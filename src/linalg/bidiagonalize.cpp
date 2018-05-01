@@ -1,17 +1,18 @@
 #include "linalg.h"
 
-std::tuple<CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor A) {
+template <class _Tensor>
+std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     bool row_go, col_go;
     row_go = col_go = true;
 
-    CPUTensor Q_t(A.rows, A.rows);
-    CPUTensor B(A.rows, A.cols);
-    CPUTensor P(A.cols, A.cols);
-    CPUTensor x(0, 0);
-    CPUTensor y(0, 0);
-    CPUTensor v(0, 0);
-    CPUTensor H(0, 0);
-    CPUTensor K(0, 0);
+    _Tensor Q_t(A.rows, A.rows);
+    _Tensor B(A.rows, A.cols);
+    _Tensor P(A.cols, A.cols);
+    _Tensor x(0, 0);
+    _Tensor y(0, 0);
+    _Tensor v(0, 0);
+    _Tensor H(0, 0);
+    _Tensor K(0, 0);
     
     Q_t = identity(Q_t);
     P = identity(P);
