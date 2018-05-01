@@ -37,6 +37,7 @@ struct CPUTensor: public Tensor {
     CPUTensor reshape(int new_rows, int new_cols);
     void _transpose();
     CPUTensor transpose();
+    CUDATensor gpu() const;
     double& operator()(int i, int j);
     double operator()(int i, int j) const;
     ~CPUTensor();

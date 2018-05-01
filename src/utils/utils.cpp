@@ -64,31 +64,10 @@ CPUTensor identity(CPUTensor I) {
 }
 
 CUDATensor identity(CUDATensor I) {
-    std::cout << "CUDA identity\n";
-    /* chcek if I is square */
     assert(I.rows == I.cols);
-    
     CPUTensor i(I.rows, I.cols);
     i = identity(i);
-//    i = random(i.rows, i.cols);
-    
-    print_m(i);
-    
-    int incx, incy;
-    incx = i.rows + 1;
-    incy = I.rows + 1;
-    
-    cublasStatus_t status;
-    status = cublasDcopy(ctx2->handle(), I.rows*I.cols,
-                           i.storage->data, incx,
-                           I.storage->data, incy);
-    std::cout << "cublasDcopy done\n";
-/*    cublasStatus_t status;
-    status = cublasSetMatrix(I.rows, I.cols, sizeof(double),
-                i.storage->data, i.rows, I.storage->data, I.rows);*/
-    
-    std::cout << _UtilsError(status) << std::endl;
-    return I;
+    return i.gpu();
 }
 
 /* puts A in the bottom left corner of I matrix */

@@ -135,3 +135,14 @@ std::ostream& operator <<(std::ostream &out, const CPUTensor B){
     return out;
 }
 
+CUDATensor CPUTensor::gpu() const{
+    CUDATensor C(rows, cols);
+    int status;
+
+    status = cublasSetMatrix(rows, cols, sizeof(double),
+                storage->data, rows, C.storage->data, C.rows);
+
+    assert (status == cudaSuccess);
+    return C;
+}
+

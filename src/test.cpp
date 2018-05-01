@@ -161,6 +161,7 @@ int main(int argc, char *argv[]){
     
     std::cout << "gA about to be set to identity\n";
     gA = identity(gA);
+
     std::cout << "gA set to identity\n";
     print_m(gA);
     
