@@ -11,7 +11,7 @@ int main(int argc, char *argv[]){
     int m, n;
     
     /* m >= n */
-    m = 3, n = 3;
+    m = 5, n = 5;
     assert(m >= n);
 
     /* Initialization of a CPU Tensor. */
@@ -151,7 +151,18 @@ int main(int argc, char *argv[]){
 */
     _assert(dot(x, y), dot(X, Y));
     
+/*    print_m(x)
     print_m(X);
-    print_m(norm(X));
+    print_m(norm(x));
+    print_m(norm(X));*/
+    _assert(norm(x), norm(X));
+    
+    A = identity(A);
+    
+    std::cout << "gA about to be set to identity\n";
+    gA = identity(gA);
+    std::cout << "gA set to identity\n";
+    print_m(gA);
+    
     return 0;
 }

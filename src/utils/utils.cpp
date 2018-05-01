@@ -1,4 +1,39 @@
 #include "utils.h"
+#include "cublas_v2.h"
+
+CUDAContext *ctx2 = CUDAContext::getInstance();
+
+static const char* _UtilsError(cublasStatus_t error)
+{
+    switch (error)
+    {
+        case CUBLAS_STATUS_SUCCESS:
+            return "CUBLAS_STATUS_SUCCESS";
+
+        case CUBLAS_STATUS_NOT_INITIALIZED:
+            return "CUBLAS_STATUS_NOT_INITIALIZED";
+
+        case CUBLAS_STATUS_ALLOC_FAILED:
+            return "CUBLAS_STATUS_ALLOC_FAILED";
+
+        case CUBLAS_STATUS_INVALID_VALUE:
+            return "CUBLAS_STATUS_INVALID_VALUE";
+
+        case CUBLAS_STATUS_ARCH_MISMATCH:
+            return "CUBLAS_STATUS_ARCH_MISMATCH";
+
+        case CUBLAS_STATUS_MAPPING_ERROR:
+            return "CUBLAS_STATUS_MAPPING_ERROR";
+
+        case CUBLAS_STATUS_EXECUTION_FAILED:
+            return "CUBLAS_STATUS_EXECUTION_FAILED";
+
+        case CUBLAS_STATUS_INTERNAL_ERROR:
+            return "CUBLAS_STATUS_INTERNAL_ERROR";
+    }
+
+    return "<unknown>";
+}
 
 CPUTensor random(int rows, int cols){
     CPUTensor C(rows, cols);
@@ -11,6 +46,7 @@ CPUTensor random(int rows, int cols){
 }
 
 CPUTensor identity(CPUTensor I) {
+    std::cout << "CPU identity\n";
     /* check if I is square */
     assert(I.rows == I.cols);
     
@@ -24,6 +60,34 @@ CPUTensor identity(CPUTensor I) {
             }
         }
     }
+    return I;
+}
+
+CUDATensor identity(CUDATensor I) {
+    std::cout << "CUDA identity\n";
+    /* chcek if I is square */
+    assert(I.rows == I.cols);
+    
+    CPUTensor i(I.rows, I.cols);
+    i = identity(i);
+//    i = random(i.rows, i.cols);
+    
+    print_m(i);
+    
+    int incx, incy;
+    incx = i.rows + 1;
+    incy = I.rows + 1;
+    
+    cublasStatus_t status;
+    status = cublasDcopy(ctx2->handle(), I.rows*I.cols,
+                           i.storage->data, incx,
+                           I.storage->data, incy);
+    std::cout << "cublasDcopy done\n";
+/*    cublasStatus_t status;
+    status = cublasSetMatrix(I.rows, I.cols, sizeof(double),
+                i.storage->data, i.rows, I.storage->data, I.rows);*/
+    
+    std::cout << _UtilsError(status) << std::endl;
     return I;
 }
 

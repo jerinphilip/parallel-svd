@@ -141,8 +141,7 @@ double norm2(CUDATensor A) {
 double norm(CUDATensor A) {
     CUDATensor flattened = A.flatten();
     double n2 = norm2(flattened);
-    double n = sqrt(n2);
-    return n;
+    return n2;
 }
 
 double dot(CUDATensor A, CUDATensor B) {
