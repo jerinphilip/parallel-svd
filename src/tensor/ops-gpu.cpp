@@ -132,10 +132,9 @@ double GPUnorm(CUDATensor A) {
     double result;
     int incx;
     incx = 1;
-/* 
     cublasStatus_t status;   
-    status = cublasDnrm2(ctx->handle, A.rows, A.storage->data, incx, &result);
-    assert(status == CUBLAS_STATUS_SUCCESS);*/
+    status = cublasDnrm2(ctx->handle(), A.rows, A.storage->data, incx, &result);
+    assert(status == CUBLAS_STATUS_SUCCESS);
     return result;
 }
 
