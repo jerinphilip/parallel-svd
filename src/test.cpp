@@ -39,8 +39,11 @@ int main(int argc, char *argv[]){
      * All ops are defined in "ops.h"
      */
 
-    print_m(slice(A, s));
+
     print_m(A);
+    print_m(slice(A, s));
+    print_m(slice(gA, s));
+    _assert(slice(A, s), slice(gA, s).cpu());
     print_m(B);
     print_m(A + B);
     print_m(A - B);

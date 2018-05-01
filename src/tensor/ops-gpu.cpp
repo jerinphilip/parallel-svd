@@ -173,13 +173,17 @@ CUDATensor slice(const CUDATensor A, block b){
 
     /* Column major storage */
     int i, k;
-    int incx=1, incy=1;
+    int incx = 1, incy = 1;
+    int status;
+
     for(int j=b.col.start; j<b.col.end; j++){
-        i = index(j, 0, C.rows);
-        k = index(j-b.col.start, 0, b.row.size());
-        cublasDcopy(ctx->handle(), b.row.size(),
+        i = index(b.row.start, j, A.rows);
+        k = index(0, j-b.col.start, b.row.size());
+        // std::cout << "\ni: " << i << " k: " << k << "\n";
+        status = cublasDcopy(ctx->handle(), b.row.size(),
                 &A.storage->data[i], incx,
                 &C.storage->data[k], incy);
+        assert(status == CUBLAS_STATUS_SUCCESS);
     }
 
     return C;
