@@ -1,6 +1,7 @@
 #include "linalg.h"
 
-CPUTensor reflector(CPUTensor v) {
+template <class _Tensor>
+_Tensor reflector(_Tensor v) {
     /* check if v is 1-dim */
     assert(v.cols == 1);
 
@@ -20,22 +21,23 @@ CPUTensor reflector(CPUTensor v) {
     return v;
 }
 
-CPUTensor house(CPUTensor v) {
+template <class _Tensor>
+_Tensor house(_Tensor v) {
     /* check if v is 1-dim */
     assert(v.cols == 1);
 
     /* calculate v * v_transpose */
-    CPUTensor v_transpose = v.transpose();
+    _Tensor v_transpose = v.transpose();
     
-    CPUTensor vvT = v*v_transpose;
+    _Tensor vvT = v*v_transpose;
     
     /* H = I - 2vvT */
-    CPUTensor I(v.rows, v.rows);
+    _Tensor I(v.rows, v.rows);
     I = identity(I);
     
     vvT = 2*vvT;
     
-    CPUTensor H = I-vvT;
+    _Tensor H = I-vvT;
     
     return H;
 }
