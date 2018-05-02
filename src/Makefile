@@ -7,8 +7,8 @@ NVCC=$(_NVCC) $(NVFLAGS) $(CXXFLAGS) $(DEBUGFLAGS)
 
 all: test main
 
-test: build/libtensor.so build/libstorage.so build/libutils.so build/liblinalg.so 
-	$(NVCC) -Xcompiler -L./build/ -ltensor -lstorage -llinalg -lutils test.cpp -o build/test
+test: build/libtensor.so build/libstorage.so build/libutils.so 
+	$(NVCC) -Xcompiler -L./build/ -ltensor -lstorage  -lutils test.cpp -o build/test
 
 build/libstorage.so: storage/*.cpp
 	$(NVCC) -Xcompiler -fPIC  storage/*.cpp -shared -o build/libstorage.so
@@ -28,7 +28,7 @@ clean:
 	rm build/*
 	rm a.out
 
-main: build/libtensor.so build/libstorage.so build/liblinalg.so build/libutils.so
-	$(NVCC) -Xcompiler -L./build/ -ltensor -lstorage -llinalg -lutils main.cpp -o build/main
+main: build/libtensor.so build/libstorage.so build/libutils.so
+	$(NVCC) -Xcompiler -L./build/ -ltensor -lstorage  -lutils main.cpp -o build/main
 
 .PHONY: clean
