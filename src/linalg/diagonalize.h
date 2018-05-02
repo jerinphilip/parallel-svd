@@ -1,18 +1,19 @@
 #include "linalg.h"
 
-std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
+template <class _Tensor>
+std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
     std::cout << "begin diagonalize:\n";
-    CPUTensor X_t(B.rows, B.rows);
-    CPUTensor sigma(B.rows, B.cols);
-    CPUTensor Y(B.cols, B.cols);
+    _Tensor X_t(B.rows, B.rows);
+    _Tensor sigma(B.rows, B.cols);
+    _Tensor Y(B.cols, B.cols);
     
-    CPUTensor x(0, 0);
-    CPUTensor y(0, 0);
-    CPUTensor G(0, 0);
+    _Tensor x(0, 0);
+    _Tensor y(0, 0);
+    _Tensor G(0, 0);
     
-    CPUTensor subX_t(0, 0);
-    CPUTensor subB(0, 0);
-    CPUTensor subY(0, 0);
+    _Tensor subX_t(0, 0);
+    _Tensor subB(0, 0);
+    _Tensor subY(0, 0);
     
     X_t = identity(X_t);
     Y = identity(Y);

@@ -17,7 +17,7 @@ struct decomposition {
 template <class Tensor>
 struct model {
     std::map<int, decomposition<Tensor>> params;
-    model(dataset &ds){
+    model(dataset<Tensor> &ds){
         for(auto p: ds.data){
             std::cout << "SVD : " << p.first << "\n";
             auto dt = svd(p.second);

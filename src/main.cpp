@@ -14,7 +14,7 @@ int main(int argc, char *argv[]){
 
 	// Load MNIST data
 	auto ds = mnist::read_dataset<std::vector, std::vector, double, uint8_t>(MNIST_DATA_LOCATION);
-    auto training = dataset(ds.training_images, ds.training_labels);
-    auto classifier = model<CPUTensor>(training);
+    auto training = dataset<CUDATensor>(ds.training_images, ds.training_labels);
+    auto classifier = model<CUDATensor>(training);
     return 0;
 }

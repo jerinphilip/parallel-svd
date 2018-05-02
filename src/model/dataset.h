@@ -6,17 +6,21 @@
 
 typedef std::vector<std::vector<double>> container;
 
+template <class Tensor>
 struct dataset {
-    std::map<int, CPUTensor> data;
+    std::map<int, Tensor> data;
 
     dataset(container &images, std::vector<unsigned char> &labels){
 
-        std::map<int, std::vector<CPUTensor>> _data;
-        int n = images.size(), length;
+        std::map<int, std::vector<Tensor>> _data;
+        int n = images.size(); 
+        int length;
         CPUTensor I(0, 0);
         int label;
 
-        n = std::min(20, n);
+        int m = std::min(50, n);
+        n = m;
+        std::cout << "truncate: " << n << "\n";
 
         for(int i=0; i < n; i++){
             length = images[i].size();
@@ -28,8 +32,7 @@ struct dataset {
 
         for(int label=0; label < 10; label++){
             data[label] = hcat(_data[label]);
-            std::cout << data[label].rows << data[label].cols << "\n";
-
+            std::cout << data[label].rows << "x" << data[label].cols << "\n";
         }
     }
 };

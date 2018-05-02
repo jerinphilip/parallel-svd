@@ -132,24 +132,26 @@ CPUTensor hcat(std::vector<CPUTensor> vs){
     int rows, cols; 
     for(auto v: vs){
         if(first){
-            first = false;
             rows = v.rows;
             cols = v.cols;
+            first = false;
         }
-        else{
+        else {
             assert (v.rows == rows);
             cols += v.cols;
         }
     }
 
     int offset = 0;
+
     CPUTensor C(rows, cols);
     for(auto v: vs){
-        for(int i=0; i < rows; i++){
+        for(int i = 0; i < rows; i++){
             for(int j=0; j < v.cols; j++){
                 C(i, j+offset) = v(i, j);
             }
         }
+        offset += v.cols;
     }
     return C;
 }

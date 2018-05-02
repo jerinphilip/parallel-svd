@@ -106,8 +106,8 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
     return C;
 }
 
-CUDATensor transpose(CUDATensor A) {
-    CUDATensor T(A.cols, A.rows);
+CUDATensor CUDATensor::transpose() {
+    CUDATensor T(cols, rows);
     
     double alpha, beta;
     alpha = 1.0;
@@ -117,9 +117,9 @@ CUDATensor transpose(CUDATensor A) {
                 CUBLAS_OP_T, CUBLAS_OP_N, 
                 T.rows, T.cols,
                 &alpha,
-                A.storage->data, A.rows, 
+                storage->data, rows, 
                 &beta,
-                A.storage->data, A.rows,
+                storage->data, rows,
                 T.storage->data, T.rows);
 //    std::cout << _cudaGetErrorEnum(status) << std::endl;
     assert(status == CUBLAS_STATUS_SUCCESS);  

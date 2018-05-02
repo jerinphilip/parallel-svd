@@ -4,6 +4,10 @@ CUDATensor::CUDATensor(int _rows, int _cols): Tensor(_rows, _cols){
     storage = new CUDAStorage(_size());
 }
 
+CUDATensor::CUDATensor(): Tensor(0, 0) {
+    storage = NULL;
+}
+
 CUDATensor::CUDATensor(CPUTensor C): Tensor(C.rows, C.cols){
     storage = new CUDAStorage(_size());
     int status;
