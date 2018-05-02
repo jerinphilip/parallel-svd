@@ -23,5 +23,6 @@ declare_ops(CPUTensor);
 declare_ops(CUDATensor);
 CUDATensor transpose(CUDATensor);
 double GPUnorm(CUDATensor);
+CPUTensor set_slice(CPUTensor&, block, CPUTensor&);
 
 #endif

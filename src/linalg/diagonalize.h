@@ -10,6 +10,10 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
     CPUTensor y(0, 0);
     CPUTensor G(0, 0);
     
+    CPUTensor subX_t(0, 0);
+    CPUTensor subB(0, 0);
+    CPUTensor subY(0, 0);
+    
     X_t = identity(X_t);
     Y = identity(Y);
     
@@ -35,8 +39,17 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
             /* do givens rotation based on x */
             G = givens(x.transpose(), i, B.cols);
             
-            B = B*G.transpose();
-            Y = Y*G.transpose();
+            block rel = block(0, B.rows)(i, i+2);
+            subB = slice(B, rel);
+            
+            subB = subB*G.transpose();
+            B = set_slice(B, rel, subB);
+            
+            block rel2 = block(0, Y.rows)(i, i+2);
+            subY = slice(Y, rel2);
+            
+            subY = subY*G.transpose();
+            Y = set_slice(Y, rel, subY);
 
             /* slice the col pair to be rotated out of B */
             block pair2 = block(i, i+2)(i, i+1);
@@ -45,8 +58,18 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
             /* do givens rotation based on y */
             G = givens(y, i, B.rows);
             
-            B = G*B;
-            X_t = G*X_t;
+            block rel3 = block(i, i+2)(0, B.cols);
+            subB = slice(B, rel3);
+            
+            subB = G*subB;
+            B = set_slice(B, rel3, subB);
+            
+            block rel4 = block(i, i+2)(0, X_t.cols);
+            subX_t = slice(X_t, rel4);
+            
+            subX_t = G*subX_t;
+            
+            X_t = set_slice(X_t, rel4, subX_t);
             
             B = check_zeros(B);            
             if(B.is_diagonal()) {

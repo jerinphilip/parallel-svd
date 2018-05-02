@@ -15,6 +15,10 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     _Tensor H(0, 0);
     _Tensor K(0, 0);
     
+    _Tensor subA(0, 0);
+    _Tensor subQ_t(0, 0);
+    _Tensor subP(0, 0);
+    
     Q_t = identity(Q_t);
     P = identity(P);
     
@@ -46,16 +50,20 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
                 v = reflector(x);
                 H = house(v);
                 
-                /* check if H needs padding */
-                if(H.cols != A.rows) {
-                    H = id_pad(H, A.rows);
-                }
+                /* multiply H with relevant part of A from left */
+                block rel = block(A.rows-H.rows, A.rows)(0, A.cols);
+                subA = slice(A, rel);
                 
-                /* multiply H with A from the left */
-                A = H*A;
+                subA = H*subA;
+                A = set_slice(A, rel, subA);
+                
                 A = check_zeros(A);
                 
-                Q_t = H*Q_t;
+                block rel2 = block(Q_t.rows-H.rows, Q_t.rows)(0, Q_t.cols);
+                subQ_t = slice(Q_t, rel2);
+                subQ_t = H*subQ_t;
+                
+                Q_t = set_slice(Q_t, rel2, subQ_t);
             }
             
             row_iter++;
@@ -74,16 +82,20 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
                 v = reflector(y.transpose());
                 K = house(v);
                 
-                /* check if K needs padding */
-                if(K.rows != A.cols) {
-                    K = id_pad(K, A.cols);
-                }
+                /* multiply K with relevant part of A from right */
+                block rel3 = block(0, A.rows)(A.cols-K.cols, A.cols);
+                subA = slice(A, rel3);
                 
-                /* multiply K with A from the right */
-                A = A*K;
+                subA = subA*K;
+                A = set_slice(A, rel3, subA);
+                
                 A = check_zeros(A);
                 
-                P = P*K;
+                block rel4 = block(0, P.rows)(P.cols-K.cols, P.cols);
+                subP = slice(P, rel4);
+                subP = subP*K;
+                
+                P = set_slice(P, rel4, subP);
             }
             
             col_iter++;

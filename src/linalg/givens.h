@@ -17,8 +17,6 @@ CPUTensor givens(CPUTensor x, int pos, int size) {
     G(1, 0) = (-1*x2)/xnorm;
     G(1, 1) = x1/xnorm;
     
-    G = id_pad_at(pos, G, size);
-    
     return G;
 }   
 

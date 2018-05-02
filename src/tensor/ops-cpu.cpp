@@ -68,7 +68,7 @@ CPUTensor set_slice(CPUTensor &A, block b, CPUTensor &B){
             A(i, j) = B(i-b.row.start, j-b.col.start);
         }
     }
-
+    return A;
 }
 
 double dot(const CPUTensor A, const CPUTensor B){
