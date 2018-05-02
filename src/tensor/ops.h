@@ -17,12 +17,11 @@
     double norm2(const _tensor);                     \
     double norm(const _tensor);                      \
     double dot(const _tensor, const _tensor);        \
-    _tensor hcat(std::vector<_tensor>);
+    _tensor hcat(std::vector<_tensor>);              \
+    void set_slice(_tensor&, block, _tensor&);
 
 declare_ops(CPUTensor);
 declare_ops(CUDATensor);
 CUDATensor transpose(CUDATensor);
-double GPUnorm(CUDATensor);
-CPUTensor set_slice(CPUTensor&, block, CPUTensor&);
 
 #endif

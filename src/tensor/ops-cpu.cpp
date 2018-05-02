@@ -61,14 +61,13 @@ CPUTensor slice(const CPUTensor A, block b){
 
 }
 
-CPUTensor set_slice(CPUTensor &A, block b, CPUTensor &B){
+void set_slice(CPUTensor &A, block b, CPUTensor &B){
     _set_bounds(A, b);
     for(int i = b.row.start; i < b.row.end; i++){
         for(int j = b.col.start; j< b.col.end; j++){
             A(i, j) = B(i-b.row.start, j-b.col.start);
         }
     }
-    return A;
 }
 
 double dot(const CPUTensor A, const CPUTensor B){

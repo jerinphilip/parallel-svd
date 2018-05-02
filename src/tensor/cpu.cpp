@@ -84,6 +84,7 @@ void CPUTensor::_transpose() {
     delete storage;
     storage = new CPUStorage(_size());
     storage->_copy(transposed);
+    delete transposed;
 
     /* swap rows and cols for tensor */
     int tmp;
@@ -108,6 +109,8 @@ CPUTensor CPUTensor::transpose() {
     /* create new CPUTensor, set its storage to transposed */
     CPUTensor T(cols, rows);
     T.storage->_copy(transposed);
+
+    delete transposed;
     return T;
 }
 

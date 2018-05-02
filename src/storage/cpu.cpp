@@ -17,4 +17,5 @@ void CPUStorage::_dcopy(const double *d, int _size){
 
 CPUStorage::~CPUStorage(){
     std::free(data);
+    data = NULL;
 }
