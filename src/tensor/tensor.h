@@ -61,6 +61,7 @@ struct CUDATensor : public Tensor {
     CUDATensor reshape(int, int);
     friend std::ostream& operator <<(std::ostream &out, const CUDATensor B);
     ~CUDATensor();
+    bool is_diagonal();
 };
 
 #endif

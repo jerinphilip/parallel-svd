@@ -72,7 +72,7 @@ std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
             set_slice(X_t, rel4, subX_t);
             std::cout << "X_t set\n";
             
-            B = check_zeros(B);            
+            // B = check_zeros(B);            
             if(B.is_diagonal()) {
                 break;
             }

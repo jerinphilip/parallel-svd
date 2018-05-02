@@ -57,7 +57,7 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
                 subA = H*subA;
                 set_slice(A, rel, subA);
                 
-                A = check_zeros(A);
+                // A = check_zeros(A);
                 
                 block rel2 = block(Q_t.rows-H.rows, Q_t.rows)(0, Q_t.cols);
                 subQ_t = slice(Q_t, rel2);
@@ -89,7 +89,7 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
                 subA = subA*K;
                 set_slice(A, rel3, subA);
                 
-                A = check_zeros(A);
+                // A = check_zeros(A);
                 
                 block rel4 = block(0, P.rows)(P.cols-K.cols, P.cols);
                 subP = slice(P, rel4);
@@ -103,7 +103,8 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
             col_go = false;
         }
     }
-    B = check_zeros(A);
+    //B = check_zeros(A);
+    B = A;
     
     auto products = std::make_tuple(Q_t, B, P);
     

@@ -110,11 +110,12 @@ CUDATensor CUDATensor::transpose() {
     CUDATensor T(cols, rows);
     
     double alpha, beta;
+    beta = 0.0;
     alpha = 1.0;
     
     cublasStatus_t status;
     status = cublasDgeam(ctx->handle(),
-                CUBLAS_OP_T, CUBLAS_OP_N, 
+                CUBLAS_OP_T, CUBLAS_OP_T, 
                 T.rows, T.cols,
                 &alpha,
                 storage->data, rows, 
@@ -234,6 +235,10 @@ CUDATensor hcat(std::vector<CUDATensor> vs){
         _cols += v.cols;
     }
     return C;
+}
+
+bool operator==(const CUDATensor A, const CUDATensor B){
+    return (A.cpu() == B.cpu());
 }
 
 

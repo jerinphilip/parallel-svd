@@ -74,3 +74,9 @@ std::ostream& operator <<(std::ostream &out, const CUDATensor B){
 CUDATensor::~CUDATensor(){
     delete storage;
 }
+
+bool CUDATensor::is_diagonal(){
+    CPUTensor C = cpu();
+    return C.is_diagonal();
+
+}
