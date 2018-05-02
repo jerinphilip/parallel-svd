@@ -30,6 +30,8 @@
 *.exe
 *.out
 *.app
+src/build/main
+src/build/test
 
 env/
 *.swp
