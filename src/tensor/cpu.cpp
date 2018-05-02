@@ -5,6 +5,10 @@ CPUTensor::CPUTensor(int _rows, int _cols):
         storage = new CPUStorage(_size());
     }
 
+CPUTensor::CPUTensor(): Tensor(0, 0){
+    storage = NULL;
+}
+
 CPUTensor::CPUTensor(const CPUTensor &B): Tensor(B.rows, B.cols){
     storage = new CPUStorage(_size());
     storage->_copy(B.storage);

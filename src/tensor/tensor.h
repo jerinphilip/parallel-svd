@@ -30,6 +30,7 @@ struct CPUTensor: public Tensor {
     CPUStorage *storage;
     CPUTensor(int _rows, int _cols);
     CPUTensor(const CPUTensor &B);
+    CPUTensor();
     bool is_zero();
     bool is_diagonal();
     void operator=(const CPUTensor A);

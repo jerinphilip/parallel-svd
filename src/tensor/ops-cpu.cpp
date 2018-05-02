@@ -92,4 +92,50 @@ CPUTensor operator*(double s, CPUTensor A) {
     return A*s;
 }
 
+/*
+CPUTensor _hcat(CPUTensor &A, CPUTensor B){
+    assert(A.rows == B.rows);
+    CPUTensor C(A.rows, A.cols + B.cols);
+    for(int i=0; i < A.rows; i++){
+        for(int j=0; j < A.cols; j++){
+            C(i, j) = A(i, j);
+        }
+    }
+    for(int i=0; i < A.rows; i++){
+        for(int j=0; j < B.cols; j++){
+            C(i+A.cols, j) = B(i, j);
+        }
+    }
+    return C;
+}
+*/
+
+CPUTensor hcat(std::vector<CPUTensor> vs){
+    bool first = true;
+    assert (vs.size() > 0);
+    int rows, cols; 
+    for(auto v: vs){
+        if(first){
+            first = false;
+            rows = v.rows;
+            cols = v.cols;
+        }
+        else{
+            assert (v.rows == rows);
+            cols += v.cols;
+        }
+    }
+
+    int offset = 0;
+    CPUTensor C(rows, cols);
+    for(auto v: vs){
+        for(int i=0; i < rows; i++){
+            for(int j=0; j < v.cols; j++){
+                C(i, j+offset) = v(i, j);
+            }
+        }
+    }
+    return C;
+}
+
 
