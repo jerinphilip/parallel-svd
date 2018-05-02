@@ -94,7 +94,8 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
     beta = 0.0;
     alpha = 1.0;
 
-    cublasDgemm(ctx->handle(), 
+    int status;
+    status = cublasDgemm(ctx->handle(), 
             CUBLAS_OP_N, CUBLAS_OP_N,
             A.rows, B.cols, A.rows,
             &alpha,
@@ -102,6 +103,8 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
             B.storage->data, B.rows,
             &beta,
             C.storage->data, C.rows);
+
+    assert(status = CUBLAS_STATUS_SUCCESS);
 
     return C;
 }
@@ -122,7 +125,6 @@ CUDATensor CUDATensor::transpose() {
                 &beta,
                 storage->data, rows,
                 T.storage->data, T.rows);
-//    std::cout << _cudaGetErrorEnum(status) << std::endl;
     assert(status == CUBLAS_STATUS_SUCCESS);  
     return T;
 }

@@ -49,7 +49,6 @@ _Tensor house(_Tensor v) {
 
     /* calculate v * v_transpose */
     _Tensor v_transpose = v.transpose();
-    
     _Tensor vvT = v*v_transpose;
     
     /* H = I - 2vvT */
