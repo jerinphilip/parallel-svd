@@ -14,6 +14,11 @@ CUDATensor::CUDATensor(CPUTensor C): Tensor(C.rows, C.cols){
     assert(status == CUBLAS_STATUS_SUCCESS);
 }
 
+CUDATensor::CUDATensor(const CUDATensor &B): Tensor(B.rows, B.cols){
+    storage = new CUDAStorage(_size());
+    storage->_copy(B.storage);
+}
+
 void CUDATensor::_copy(CUDATensor *B){
     storage->_copy(B->storage);
 }
@@ -60,4 +65,8 @@ CUDATensor CUDATensor::flatten(){
 std::ostream& operator <<(std::ostream &out, const CUDATensor B){
     out << B.cpu();
     return out;
+}
+
+CUDATensor::~CUDATensor(){
+    delete storage;
 }

@@ -51,14 +51,14 @@ struct CUDATensor : public Tensor {
     CUDAStorage *storage;
     CUDATensor(int _rows, int _cols);
     CUDATensor(CPUTensor C);
-
+    CUDATensor(const CUDATensor &B);
     void _copy(CUDATensor *B);
     CPUTensor cpu() const;
     void operator=(const CUDATensor &B);
     CUDATensor flatten();
     CUDATensor reshape(int, int);
-
     friend std::ostream& operator <<(std::ostream &out, const CUDATensor B);
+    ~CUDATensor();
 };
 
 #endif
