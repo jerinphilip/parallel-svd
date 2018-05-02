@@ -2,6 +2,12 @@
 
 template <class _Tensor>
 std::tuple <_Tensor, _Tensor, _Tensor> svd(_Tensor A) {
+    bool transpose = false;
+    if ( A.rows < A.cols){
+        A = A.transpose();
+        transpose = true;
+    }
+
     auto bidiag_products = bidiagonalize(A);
     _Tensor Q_t = std::get<0>(bidiag_products);
     _Tensor B = std::get<1>(bidiag_products);
@@ -24,6 +30,14 @@ std::tuple <_Tensor, _Tensor, _Tensor> svd(_Tensor A) {
     _Tensor V_t = V.transpose();
     
     _assert(U*sigma*V_t, A);
+
+    if (transpose){
+        _Tensor tmp;
+        tmp = U;
+        U = V_t.transpose();
+        sigma = sigma.transpose();
+        V_t = tmp.transpose();
+    }
     
     auto products = std::make_tuple(U, sigma, V_t);
     return products;

@@ -40,13 +40,17 @@ CPUTensor operator*(const CPUTensor A, const CPUTensor B){
     return C;
 }
 
-CPUTensor slice(const CPUTensor A, block b){
+
+void _set_bounds(const CPUTensor &A, block &b){
     if ( b.row.end == -1) b.row.end = A.rows;
     if ( b.col.end == -1) b.col.end = A.cols;
 
     if ( b.row.start == -1) b.row.start = 0;
     if ( b.col.start == -1) b.col.start = 0;
+}
 
+CPUTensor slice(const CPUTensor A, block b){
+    _set_bounds(A, b);
     CPUTensor C(b.row.size(), b.col.size());
     for(int i=b.row.start; i<b.row.end; i++){
         for(int j=b.col.start; j<b.col.end; j++){
@@ -54,6 +58,16 @@ CPUTensor slice(const CPUTensor A, block b){
         }
     }
     return C;
+
+}
+
+CPUTensor set_slice(CPUTensor &A, block b, CPUTensor &B){
+    _set_bounds(A, b);
+    for(int i=b.row.start; i<b.row.end; i++){
+        for(int j=b.col.start; j<b.col.end; j++){
+            A(i, j) = B(i-b.row.start, j-b.col.start);
+        }
+    }
 
 }
 

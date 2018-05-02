@@ -1,6 +1,7 @@
 #include "linalg.h"
 
 std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
+    std::cout << "begin diagonalize:\n";
     CPUTensor X_t(B.rows, B.rows);
     CPUTensor sigma(B.rows, B.cols);
     CPUTensor Y(B.cols, B.cols);
@@ -19,8 +20,11 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
     } else {
         udiag = B.cols-1;
     }
+
+    int iterations = 0;
     
     while(!B.is_diagonal()) {
+
         /* iterate for each pair of diagonal and upper diagonal elements to 
            eliminate the upper diagonal element                               */
         for(int i = 0; i < udiag; i++) {
@@ -49,10 +53,13 @@ std::tuple<CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor B) {
                 break;
             }
         }
+        iterations += 1;
+        std:: cout << iterations << " iterations complete.\n";
     }
     sigma = B;
     
     auto products = std::make_tuple(X_t, sigma, Y);
     
+    std::cout << "end diagonalize:\n";
     return products;
 }

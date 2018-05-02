@@ -16,6 +16,8 @@ struct dataset {
         CPUTensor I(0, 0);
         int label;
 
+        n = std::min(20, n);
+
         for(int i=0; i < n; i++){
             length = images[i].size();
             double *im = &(images[i][0]);

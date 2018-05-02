@@ -2,6 +2,7 @@
 
 template <class _Tensor>
 std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
+    std::cout << "begin bidiagonalize:\n";
     bool row_go, col_go;
     row_go = col_go = true;
 
@@ -33,6 +34,7 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     int row_iter, col_iter;
     row_iter = col_iter = 0;
     while(row_go || col_go) {
+        std::cout << row_go << col_go << "\n";
         /* iterations annihilate below diagonal for cols */
         if(row_iter < diag) {
             /* slice x col out of A */
@@ -93,5 +95,6 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     
     auto products = std::make_tuple(Q_t, B, P);
     
+    std::cout << "end bidiagonalize:\n";
     return products;
 }
