@@ -7,7 +7,7 @@ NVCC=$(_NVCC) $(NVFLAGS) $(CXXFLAGS) $(DEBUGFLAGS)
 
 all: test main
 
-test: build/libtensor.so build/libstorage.so build/liblinalg.so build/libutils.so
+test: build/libtensor.so build/libstorage.so build/libutils.so build/liblinalg.so 
 	$(NVCC) -Xcompiler -L./build/ -ltensor -lstorage -llinalg -lutils test.cpp -o build/test
 
 build/libstorage.so: storage/*.cpp
@@ -16,8 +16,10 @@ build/libstorage.so: storage/*.cpp
 build/libtensor.so:  build/libstorage.so tensor/*.cpp
 	$(NVCC) -Xcompiler -fPIC -L./build/  -shared -o build/libtensor.so tensor/*.cpp
 
-build/liblinalg.so: build/libtensor.so linalg/*.cpp
-	$(NVCC) -Xcompiler -fPIC -L./build  -shared -o build/liblinalg.so linalg/*.cpp
+#build/liblinalg.so: build/libtensor.so linalg/*.cpp
+#	$(NVCC) -Xcompiler -fPIC -L./build  -shared -o build/liblinalg.so linalg/*.cpp
+#
+
 
 build/libutils.so: build/libtensor.so utils/*.cpp
 	$(NVCC) -Xcompiler -fPIC -L./build -shared -o build/libutils.so utils/*.cpp

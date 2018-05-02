@@ -11,11 +11,28 @@
 
 /* Householder and Givens stuff */
 
-CPUTensor reflector(CPUTensor);
-CPUTensor house(CPUTensor);
-CPUTensor givens(CPUTensor, int, int);
-std::tuple <CPUTensor, CPUTensor, CPUTensor> bidiagonalize(CPUTensor);
-std::tuple <CPUTensor, CPUTensor, CPUTensor> diagonalize(CPUTensor);
-std::tuple <CPUTensor, CPUTensor, CPUTensor> svd(CPUTensor A);
+template <class _Tensor>
+_Tensor reflector(_Tensor);
+
+template <class _Tensor>
+_Tensor house(_Tensor);
+
+template <class _Tensor>
+_Tensor givens(_Tensor, int, int);
+
+template <class _Tensor>
+std::tuple <_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor);
+
+template <class _Tensor>
+std::tuple <_Tensor, _Tensor, _Tensor> diagonalize(_Tensor);
+
+template <class _Tensor>
+std::tuple <_Tensor, _Tensor, _Tensor> svd(_Tensor A);
+
+#include "householder.h"
+#include "givens.h"
+#include "bidiagonalize.h"
+#include "diagonalize.h"
+#include "svd.h"
 
 #endif

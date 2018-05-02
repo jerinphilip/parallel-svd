@@ -46,7 +46,6 @@ CPUTensor random(int rows, int cols){
 }
 
 CPUTensor identity(CPUTensor I) {
-    std::cout << "CPU identity\n";
     /* check if I is square */
     assert(I.rows == I.cols);
     
