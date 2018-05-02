@@ -47,6 +47,9 @@ void _set_bounds(const CPUTensor &A, block &b){
 
     if ( b.row.start == -1) b.row.start = 0;
     if ( b.col.start == -1) b.col.start = 0;
+
+    assert (b.row.end <= A.rows);
+    assert (b.col.end <= A.cols);
 }
 
 CPUTensor slice(const CPUTensor A, block b){

@@ -161,13 +161,16 @@ double dot(CUDATensor A, CUDATensor B) {
     return result;                        
 }
 
-CUDATensor slice(const CUDATensor A, block b){
+void _set_bounds(const CUDATensor &A, block &b){
     if ( b.row.end == -1) b.row.end = A.rows;
     if ( b.col.end == -1) b.col.end = A.cols;
 
     if ( b.row.start == -1) b.row.start = 0;
     if ( b.col.start == -1) b.col.start = 0;
+}
 
+CUDATensor slice(const CUDATensor A, block b){
+    _set_bounds(A, b);
     CUDATensor C(b.row.size(), b.col.size());
 
     /* Column major storage */
@@ -188,3 +191,49 @@ CUDATensor slice(const CUDATensor A, block b){
     return C;
 
 }
+
+void set_slice(CUDATensor &A, block b, CUDATensor &B){
+    _set_bounds(A, b);
+    int i, k;
+    int incx = 1, incy = 1;
+    int status;
+
+    for(int j=b.col.start; j < b.col.end; j++){
+        k = index(b.row.start, j, A.rows);
+        i = index(0, j-b.col.start, b.row.size());
+        status = cublasDcopy(ctx->handle(), b.row.size(),
+                &B.storage->data[i], incx,
+                &A.storage->data[k], incy);
+    
+    }
+}
+
+CUDATensor hcat(std::vector<CUDATensor> vs){
+    bool first = true;
+    assert (vs.size() > 0);
+    int rows, cols; 
+    for(auto v: vs){
+        if(first){
+            first = false;
+            rows = v.rows;
+            cols = v.cols;
+        }
+        else{
+            assert (v.rows == rows);
+            cols += v.cols;
+        }
+    }
+
+    int offset = 0;
+    CUDATensor C(rows, cols);
+
+    int _cols = 0;
+    for(auto v: vs){
+        block b = block(-1, -1)(_cols, _cols+v.cols);
+        set_slice(C, b, v);
+        _cols += v.cols;
+    }
+    return C;
+}
+
+
