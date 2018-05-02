@@ -80,3 +80,15 @@ bool CUDATensor::is_diagonal(){
     return C.is_diagonal();
 
 }
+
+CUDATensor CUDATensor::from_array(double *A, int rows, int cols){
+    CUDATensor C(rows, cols);
+    int status;
+
+    status = cublasSetMatrix(rows, cols, sizeof(double), 
+            A,
+            rows, 
+            C.storage->data, rows);
+    assert(status == CUBLAS_STATUS_SUCCESS);
+    return C;
+}

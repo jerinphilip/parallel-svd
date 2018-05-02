@@ -60,6 +60,7 @@ struct CUDATensor : public Tensor {
     CUDATensor flatten();
     CUDATensor reshape(int, int);
     friend std::ostream& operator <<(std::ostream &out, const CUDATensor B);
+    static CUDATensor from_array(double *A, int rows, int cols);
     ~CUDATensor();
     bool is_diagonal();
 };

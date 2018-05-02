@@ -94,13 +94,21 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
     beta = 0.0;
     alpha = 1.0;
 
+    assert (B.storage->data != NULL);
+
     int status;
-    status = cublasDgemm(ctx->handle(), 
-            CUBLAS_OP_N, CUBLAS_OP_N,
-            A.rows, B.cols, A.rows,
+    status = cublasDgemm(
+            ctx->handle(), 
+            CUBLAS_OP_N, 
+            CUBLAS_OP_N,
+            A.rows, 
+            B.cols, 
+            A.rows,
             &alpha,
-            A.storage->data, A.rows,
-            B.storage->data, B.rows,
+            A.storage->data, 
+            A.rows,
+            B.storage->data, 
+            B.rows,
             &beta,
             C.storage->data, C.rows);
 

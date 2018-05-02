@@ -15,17 +15,17 @@ struct dataset {
         std::map<int, std::vector<Tensor>> _data;
         int n = images.size(); 
         int length;
-        CPUTensor I(0, 0);
+        Tensor I(0, 0);
         int label;
 
-        int m = std::min(50, n);
+        int m = std::min(20, n);
         n = m;
         std::cout << "truncate: " << n << "\n";
 
         for(int i=0; i < n; i++){
             length = images[i].size();
             double *im = &(images[i][0]);
-            I = CPUTensor::from_array(im, length, 1);
+            I = Tensor::from_array(im, length, 1);
             label = labels[i];
             _data[label].push_back(I);
         }

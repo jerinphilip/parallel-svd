@@ -25,8 +25,12 @@ CUDATensor reflector(CUDATensor w) {
     /* check if v is 1-dim */
     assert(v.cols == 1);
 
+    std::cout << v << "\n";
+
     /* find norm of the vector */
+
     double norm_x = norm(v.gpu());
+    std::cout << "norm: " << norm_x << "\n";
 
     /* subtract it from first element */
     v(0, 0) -= norm_x;
@@ -49,6 +53,13 @@ _Tensor house(_Tensor v) {
 
     /* calculate v * v_transpose */
     _Tensor v_transpose = v.transpose();
+    /*
+    std::cout << v.rows << "x" << v.cols << "\n";
+    std::cout << v << "\n";
+    std::cout << v_transpose.rows << "x" << v_transpose.cols << "\n";
+    std::cout << v_transpose << "\n";
+    */
+
     _Tensor vvT = v*v_transpose;
     
     /* H = I - 2vvT */
