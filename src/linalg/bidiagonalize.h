@@ -1,8 +1,9 @@
 #include "linalg.h"
+#include "utils/utils.h"
 
 template <class _Tensor>
 std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
-    std::cout << "begin bidiagonalize:\n";
+    //std::cout << "begin bidiagonalize:\n";
     bool row_go, col_go;
     row_go = col_go = true;
 
@@ -21,6 +22,7 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     
     Q_t = identity(Q_t);
     P = identity(P);
+
     
     /* find length of diagonal and upper diagonal */
     int diag, udiag;
@@ -38,12 +40,13 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     int row_iter, col_iter;
     row_iter = col_iter = 0;
     while(row_go || col_go) {
-        std::cout << row_go << col_go << "\n";
+        //std::cout << row_go << col_go << "\n";
         /* iterations annihilate below diagonal for cols */
         if(row_iter < diag) {
             /* slice x col out of A */
             block col = block(row_iter, A.rows)(row_iter, row_iter+1);
             x = slice(A, col);
+
             
             /* generate hh matrix based on x */
             if (x.rows > 1) {
@@ -108,6 +111,6 @@ std::tuple<_Tensor, _Tensor, _Tensor> bidiagonalize(_Tensor A) {
     
     auto products = std::make_tuple(Q_t, B, P);
     
-    std::cout << "end bidiagonalize:\n";
+    //std::cout << "end bidiagonalize:\n";
     return products;
 }

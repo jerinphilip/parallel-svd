@@ -16,7 +16,11 @@ int main(int argc, char *argv[]){
 
 	// Load MNIST data
 	auto ds = mnist::read_dataset<std::vector, std::vector, double, uint8_t>(MNIST_DATA_LOCATION);
-    auto training = dataset<_Tensor>(ds.training_images, ds.training_labels);
+    auto training = grouping<_Tensor>(ds.training_images, ds.training_labels);
     auto classifier = model<_Tensor>(training);
+
+    auto unknowns = toTensor<_Tensor>(ds.test_images);
+    classifier.classify(unknowns);
+
     return 0;
 }

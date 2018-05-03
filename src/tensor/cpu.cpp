@@ -1,4 +1,5 @@
 #include "tensor.h"
+#define EPS 1e-9
 
 CPUTensor::CPUTensor(int _rows, int _cols):
     Tensor(_rows, _cols) {
@@ -15,7 +16,6 @@ CPUTensor::CPUTensor(const CPUTensor &B): Tensor(B.rows, B.cols){
 }
 
 bool CPUTensor::is_zero(){
-    double EPS = 1e-7;
     for(int i=0; i < rows; i++){
         for(int j=0; j <cols; j++){
             if (abs((*this)(i, j)) > EPS)
@@ -26,7 +26,6 @@ bool CPUTensor::is_zero(){
 }
 
 bool CPUTensor::is_diagonal() {
-    double EPS = 1e-7;
     for(int i = 0; i < rows; i++) {
         for(int j = 0; j < cols; j++) {
             if(i != j) {

@@ -1,8 +1,8 @@
 #include "linalg.h"
+#include "utils/utils.h"
 
 template <class _Tensor>
 std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
-    std::cout << "begin diagonalize:\n";
     _Tensor X_t(B.rows, B.rows);
     _Tensor sigma(B.rows, B.cols);
     _Tensor Y(B.cols, B.cols);
@@ -25,8 +25,8 @@ std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
     } else {
         udiag = B.cols-1;
     }
+
     int iterations = 0;
-    
     while(!B.is_diagonal()) {
 
         /* iterate for each pair of diagonal and upper diagonal elements to 
@@ -78,12 +78,9 @@ std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
             }
         }
         iterations += 1;
-        std:: cout << iterations << " iterations complete.\n";
     }
+    std:: cout << iterations << " iterations complete.\n";
     sigma = B;
-    
     auto products = std::make_tuple(X_t, sigma, Y);
-    
-    std::cout << "end diagonalize:\n";
     return products;
 }

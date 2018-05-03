@@ -78,7 +78,6 @@ CUDATensor::~CUDATensor(){
 bool CUDATensor::is_diagonal(){
     CPUTensor C = cpu();
     return C.is_diagonal();
-
 }
 
 CUDATensor CUDATensor::from_array(double *A, int rows, int cols){

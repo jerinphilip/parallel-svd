@@ -191,7 +191,6 @@ CUDATensor slice(const CUDATensor A, block b){
     int i, k;
     int incx = 1, incy = 1;
     int status;
-
     for(int j=b.col.start; j<b.col.end; j++){
         i = index(b.row.start, j, A.rows);
         k = index(0, j-b.col.start, b.row.size());

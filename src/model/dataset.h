@@ -7,10 +7,10 @@
 typedef std::vector<std::vector<double>> container;
 
 template <class Tensor>
-struct dataset {
+struct grouping {
     std::map<int, Tensor> data;
 
-    dataset(container &images, std::vector<unsigned char> &labels){
+    grouping(container &images, std::vector<unsigned char> &labels){
 
         std::map<int, std::vector<Tensor>> _data;
         int n = images.size(); 
@@ -18,8 +18,7 @@ struct dataset {
         Tensor I(0, 0);
         int label;
 
-        int m = std::min(200, n);
-        n = m;
+        n = std::min(n, 500);
         std::cout << "truncate: " << n << "\n";
 
         for(int i=0; i < n; i++){
@@ -37,5 +36,16 @@ struct dataset {
     }
 };
 
+template <class Tensor>
+Tensor toTensor(container &images){
+    std::vector<Tensor> vs;
+    Tensor I;
+    for(auto image: images){
+        double *img = &(image[0]);
+        I = Tensor::from_array(img, image.size(), 1);
+        vs.push_back(I);
+    }
+    return hcat(vs);
+}
 
 #endif
