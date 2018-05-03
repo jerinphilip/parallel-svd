@@ -171,25 +171,24 @@ int main(int argc, char *argv[]){
     //print_m(norm(X));*/
     _assert(norm(x), norm(X));
     
-/*    A = identity(A);
-    
-    std::cout << "gA about to be set to identity\n";
+    A = random(6, 6);
+    gA = A.gpu();
+    /*
+    A = identity(A);
     gA = identity(gA);
-
-    std::cout << "gA set to identity\n";
-    //print_m(gA);*/
-    
-/*    //print_m(A);
+    */
     block b69 = block(1, A.rows)(1, A.cols);
     B = slice(A, b69);
-    //print_m(B);
-    
     B = identity(B);
-    //print_m(B);
-    
-    A = set_slice(A, b69, B);
-    
-    //print_m(A);*/
+    set_slice(A, b69, B);
+
+    gB = slice(gA, b69);
+    gB = identity(gB);
+    set_slice(gA, b69, gB);
+
+    _assert(A, gA.cpu());
+    print_m(A);
+    print_m(gA);
     
     std::cout << "end\n";
     return 0;

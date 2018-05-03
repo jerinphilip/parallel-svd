@@ -8,7 +8,7 @@
 #include "model/model.h"
 #include "model/dataset.h"
 
-#define _Tensor CPUTensor
+#define _Tensor CUDATensor
 
 int main(int argc, char *argv[]){
 	const char *MNIST_DATA_LOCATION = argv[1];

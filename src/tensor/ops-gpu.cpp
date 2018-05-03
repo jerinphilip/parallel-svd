@@ -1,5 +1,6 @@
 #include "ops.h"
 #include "cublas_v2.h"
+#include "utils/utils.h"
 
 CUDAContext *ctx = CUDAContext::getInstance();
 
@@ -94,16 +95,18 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
     beta = 0.0;
     alpha = 1.0;
 
-    assert (B.storage->data != NULL);
-
     int status;
+    /*
+    print_m(A);
+    print_m(B);
+    */
     status = cublasDgemm(
             ctx->handle(), 
             CUBLAS_OP_N, 
             CUBLAS_OP_N,
             A.rows, 
             B.cols, 
-            A.rows,
+            A.cols,
             &alpha,
             A.storage->data, 
             A.rows,
@@ -112,7 +115,7 @@ CUDATensor operator*(CUDATensor A, CUDATensor B){
             &beta,
             C.storage->data, C.rows);
 
-    assert(status = CUBLAS_STATUS_SUCCESS);
+    // assert(status = CUBLAS_STATUS_SUCCESS);
 
     return C;
 }
@@ -240,10 +243,22 @@ CUDATensor hcat(std::vector<CUDATensor> vs){
 
     int _cols = 0;
     for(auto v: vs){
-        block b = block(-1, -1)(_cols, _cols+v.cols);
+        block b = block(0, v.rows)(_cols, _cols+v.cols);
         set_slice(C, b, v);
+        /*
+        print_m(slice(C, b).transpose());
+        print_m(v.transpose());
+        */
+        _assert(slice(C, b), v);
+        /*
+        print_m(v.transpose());
+        print_m(C.transpose());
+        */
         _cols += v.cols;
     }
+    /*
+    print_m(C.transpose());
+    */
     return C;
 }
 
