@@ -63,14 +63,14 @@ std::tuple<_Tensor, _Tensor, _Tensor> diagonalize(_Tensor B) {
             
             subB = G*subB;
             set_slice(B, rel3, subB);
-            std::cout << "B set\n";
+            //std::cout << "B set\n";
             
             block rel4 = block(i, i+2)(0, X_t.cols);
             subX_t = slice(X_t, rel4);
             
             subX_t = G*subX_t;
             set_slice(X_t, rel4, subX_t);
-            std::cout << "X_t set\n";
+            // std::cout << "X_t set\n";
             
             // B = check_zeros(B);            
             if(B.is_diagonal()) {

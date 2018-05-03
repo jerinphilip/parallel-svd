@@ -249,7 +249,7 @@ CUDATensor hcat(std::vector<CUDATensor> vs){
         print_m(slice(C, b).transpose());
         print_m(v.transpose());
         */
-        _assert(slice(C, b), v);
+        // _assert(slice(C, b), v);
         /*
         print_m(v.transpose());
         print_m(C.transpose());

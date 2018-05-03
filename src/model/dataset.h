@@ -18,7 +18,7 @@ struct dataset {
         Tensor I(0, 0);
         int label;
 
-        int m = std::min(20, n);
+        int m = std::min(200, n);
         n = m;
         std::cout << "truncate: " << n << "\n";
 

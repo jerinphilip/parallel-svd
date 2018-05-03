@@ -26,10 +26,10 @@ CUDATensor reflector(CUDATensor w) {
     assert(v.cols == 1);
 
     /* find norm of the vector */
-    print_m(v.transpose());
+    //print_m(v.transpose());
 
     double norm_x = norm(v.gpu());
-    print_m(norm_x);
+    // print_m(norm_x);
 
     /* subtract it from first element */
     v(0, 0) -= norm_x;
